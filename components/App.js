@@ -7,6 +7,8 @@ import {
   Text
 } from 'react-native';
 import Contacts from 'react-native-contacts';
+import detectFirstLaunch from "../utils/detectFirstLaunch";
+
 
 export default class App extends Component {
   constructor(props) {
