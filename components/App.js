@@ -5,6 +5,15 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
+
+import {Provider} from 'react-redux';
+
+import {createStore, applyMiddleware} from 'redux';
+import contacts from '../api/redux/reducers/root';
+import logger from 'redux-logger';
+
+const store = createStore(contacts, applyMiddleware(logger));
+
 import Contacts from 'react-native-contacts';
 import ContactCard from './ContactCard/ContactCard';
 // import detectFirstLaunch from '../utils/detectFirstLaunch';
@@ -17,6 +26,8 @@ export default class App extends Component {
         this.state = {
             contacts: [],
         };
+
+        this.getContacts = this.getContacts.bind(this);
     }
 
     getContacts = () => {
@@ -45,13 +56,15 @@ export default class App extends Component {
             );
 
         return (
-            <View style={styles.container}>
-                <Button
-                    title={'Get Contacts'}
-                    onPress={() => this.getContacts()}
-                />
+            <Provider store={store}>
+                <View style={styles.container}>
+                    <Button 
+                        title={'Get Contacts'}
+                        onPress={this.getContacts}
+                    />
                     { contactList }
-            </View>
+                </View>
+            </Provider>
         );
     }
 }

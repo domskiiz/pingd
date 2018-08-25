@@ -1,8 +1,8 @@
-import {contacts} from './contacts';
-import {initialState} from '../store.js';
+import contacts from './contacts';
+// import {combineReducers} from 'redux';
 
-export function root(state = initialState, action) {
-    return {
-        contacts: contacts(state.contacts, action),
-    };
-}
+// const reducers = combineReducers({
+//     contacts,
+// });
+
+export default contacts;
