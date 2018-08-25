@@ -4,10 +4,10 @@ import {
     View,
     Button,
     FlatList,
-    Text,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
 // import detectFirstLaunch from "../utils/detectFirstLaunch";
+import ContactCard from './ContactCard/ContactCard';
 
 export default class App extends Component {
     constructor(props) {
@@ -19,7 +19,6 @@ export default class App extends Component {
     }
 
     getContacts = () => {
-        console.log(Contacts);
         Contacts.getAll((err, c) => {
             if (err) {
                 throw err;
@@ -38,7 +37,14 @@ export default class App extends Component {
                       this.state.contacts.length !== 0
                       ? <FlatList
                           data={this.state.contacts}
-                          renderItem={(c) => <Text>{c.item.givenName}</Text>}
+                          renderItem={(c) =>
+                              <ContactCard
+                                  firstName={c.item.givenName}
+                                  lastName={c.item.familyName}
+                                  phoneNumber={c.item.phoneNumbers[0].number}
+                                  emails={c.item.emailAddresses}
+                              />
+                          }
                         />
                       : null
                     }
