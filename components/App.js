@@ -9,7 +9,6 @@ import {
 import Contacts from 'react-native-contacts';
 // import detectFirstLaunch from "../utils/detectFirstLaunch";
 
-
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +19,7 @@ export default class App extends Component {
     }
 
     getContacts = () => {
+        console.log(Contacts);
         Contacts.getAll((err, c) => {
             if (err) {
                 throw err;
@@ -53,15 +53,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
     },
 });
