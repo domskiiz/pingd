@@ -1,53 +1,56 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet,
-    View,
     Button,
     FlatList,
+    StyleSheet,
+    View,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
-// import detectFirstLaunch from "../utils/detectFirstLaunch";
 import ContactCard from './ContactCard/ContactCard';
+// import detectFirstLaunch from '../utils/detectFirstLaunch';
+
 
 export default class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-          contacts: [],
+            contacts: [],
         };
     }
 
     getContacts = () => {
         Contacts.getAll((err, c) => {
-            if (err) {
+            if (err)
                 throw err;
-            }
-            this.setState({contacts: c});
+            this.setState({ contacts: c });
         });
     };
 
     render() {
+        let contactList = null;
+        if (this.state.contacts.length > 0)
+            contactList = (
+                <FlatList
+                    data={this.state.contacts}
+                    renderItem={c =>
+                        <ContactCard
+                            firstName={c.item.givenName}
+                            lastName={c.item.familyName}
+                            phoneNumber={c.item.phoneNumbers[0].number}
+                            emails={c.item.emailAddresses}
+                        />
+                    }
+                />
+            );
+
         return (
             <View style={styles.container}>
-                <Button title={'Get Contacts'}
-                        onPress={() => this.getContacts()}
+                <Button
+                    title={'Get Contacts'}
+                    onPress={() => this.getContacts()}
                 />
-                    {
-                      this.state.contacts.length !== 0
-                      ? <FlatList
-                          data={this.state.contacts}
-                          renderItem={(c) =>
-                              <ContactCard
-                                  firstName={c.item.givenName}
-                                  lastName={c.item.familyName}
-                                  phoneNumber={c.item.phoneNumbers[0].number}
-                                  emails={c.item.emailAddresses}
-                              />
-                          }
-                        />
-                      : null
-                    }
+                    { contactList }
             </View>
         );
     }
