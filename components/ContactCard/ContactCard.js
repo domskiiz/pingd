@@ -5,14 +5,15 @@ import {
     Text,
     Image,
     Button,
+    TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import {addContact} from '../../api/redux/actions/addContact';
-import {store} from '../../api/redux/store';
+import addContact from '../../api/redux/actions/addContact';
+import {connect} from 'react-redux';
 
 
-export default class ContactCard extends Component {
+class ContactCard extends Component {
     constructor(props) {
         super(props);
 
@@ -23,37 +24,36 @@ export default class ContactCard extends Component {
     }
 
     _onClick() {
-        console.log('here');
         this.setState({flipped: !this.state.flipped});
     }
 
-    _setPriority = (priority) => {
+    _setPriority(priority) {
         const contact = {
             name: this.props.firstName + ' ' + this.props.lastName,
             phone: this.props.phoneNumber,
         };
-        store.dispatch(addContact(contact, priority));
+        this.props.addContact(contact, priority);
     }
 
     render() {
         return (
-            <View style={styles.container} onClick={this._onClick}>
+            <TouchableOpacity style={styles.container} onPress={this._onClick}>
                 {
                     this.state.flipped
                     ?
                         <View style={styles.container}>
                             <Button
-                                onClick={() => this._setPriority(1)}
+                                onPress={() => this._setPriority(1)}
                                 title="1"
                                 color="#2980b9"
                             />
                             <Button
-                                onClick={() => this._setPriority(2)}
+                                onPress={() => this._setPriority(2)}
                                 title="2"
                                 color="#27ae60"
                             />
                             <Button
-                                onClick={() => this._setPriority(3)}
+                                onPress={() => this._setPriority(3)}
                                 title="3"
                                 color="#16a085"
                             />
@@ -71,7 +71,7 @@ export default class ContactCard extends Component {
                         </View>
                 }
 
-            </View>
+            </TouchableOpacity>
         );
     }
 }
@@ -80,7 +80,22 @@ ContactCard.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
+    addContact: PropTypes.function,
 };
+
+const mapStateToProps = () => {
+    return { };
+};
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addContact: (c, p) => dispatch(addContact(c, p)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
+
 
 const styles = StyleSheet.create({
     container: {
