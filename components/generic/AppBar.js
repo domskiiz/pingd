@@ -10,14 +10,14 @@ import Theme from '../Theme';
 
 
 const AppBar = (props) => {
-    let style = [styles.appBar];
+    let style = [styles.appBarMain];
     if (props.height)
         style.push({height: props.height});
 
     return (
-        <View style={style}>
+        <View style={styles.appBar}>
             <StatusBar barStyle="light-content"/>
-            <View style={styles.appBarMain}>
+            <View style={style}>
                 {props.children}
             </View>
             <View style={styles.appBarHighlight}/>

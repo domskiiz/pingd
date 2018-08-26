@@ -36,7 +36,7 @@ function getImageBorder(priority) {
 const ContactCard = (props) => {
     let contactImg = {uri: props.thumbnail};
     if (!props.thumbnail)
-        contactImg = require('../../assets/pingd_contact.png');
+        contactImg = require('../../assets/contact.png');
 
     let imageStyle = [styles.image];
     if (props.priority >= 0)

@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import {
-    View,
+    Image,
+    StyleSheet,
     Text,
+    View,
 } from 'react-native';
 import PropTypes from 'prop-types';
+
+import AppBar from '../generic/AppBar';
 
 
 export default class PingList extends Component {
@@ -18,6 +22,12 @@ export default class PingList extends Component {
     render() {
         return (
             <View>
+                <AppBar height={100}>
+                    <Image
+                        style={styles.logo}
+                        source={require('../../assets/logo.png')}
+                    />
+                </AppBar>
                 <Text>PingList</Text>
             </View>
         );
@@ -27,3 +37,11 @@ export default class PingList extends Component {
 PingList.propTypes = {
     navigator: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+    logo: {
+        resizeMode: 'contain',
+        height: 64,
+        marginTop: 20,
+    },
+});
