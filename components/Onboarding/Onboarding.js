@@ -45,7 +45,7 @@ class Onboarding extends Component {
 
 
 Onboarding.propTypes = {
-    startAppImporting: PropTypes.function,
+    startAppImporting: PropTypes.func,
 };
 
 

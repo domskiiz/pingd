@@ -18,8 +18,11 @@ import ContactCard from '../generic/ContactCard/ContactCard';
 import Theme from '../Theme';
 
 
-const ContinueButton = () => (
-    <TouchableOpacity style={styles.continueButtonWrapper}>
+const ContinueButton = (props) => (
+    <TouchableOpacity
+        onPress={props.startMainApp}
+        style={styles.continueButtonWrapper}
+    >
         <View style={styles.continueButton}>
             <Image
                 style={styles.continueButtonImg}
@@ -29,16 +32,24 @@ const ContinueButton = () => (
     </TouchableOpacity>
 );
 
+ContinueButton.propTypes = {
+    startMainApp: PropTypes.func,
+};
 
-const AppBar = () => (
+
+const AppBar = (props) => (
     <View style={styles.appBar}>
-        <ContinueButton/>
+        <ContinueButton startMainApp={props.startMainApp}/>
         <View style={styles.appBarMain}>
             <Text style={styles.appBarText}>Select your contacts</Text>
         </View>
         <View style={styles.appBarHighlight}/>
     </View>
 );
+
+AppBar.propTypes = {
+    startMainApp: PropTypes.func,
+};
 
 
 function compareContacts(c1, c2) {
@@ -121,10 +132,6 @@ class OnboardingContactsPage extends Component {
         return processed;
     }
 
-    _startMainApp = () => {
-        this.props.startMainApp();
-    }
-
     UNSAFE_componentWillMount() {
         this._getContacts();
     }
@@ -144,7 +151,7 @@ class OnboardingContactsPage extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"/>
-                <AppBar/>
+                <AppBar startMainApp={this.props.startMainApp}/>
                 {contactList}
             </View>
         );
@@ -152,7 +159,7 @@ class OnboardingContactsPage extends Component {
 }
 
 OnboardingContactsPage.propTypes = {
-    startMainApp: PropTypes.function,
+    startMainApp: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
