@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 
 import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 
+import AppBar from '../generic/AppBar';
 import ContactCard from './OnboardingContactCard';
 import Theme from '../Theme';
 
@@ -21,11 +22,11 @@ import Theme from '../Theme';
 const ContinueButton = (props) => (
     <TouchableOpacity
         onPress={props.continue}
-        style={styles.continueButtonWrapper}
+        style={buttonStyles.continueButtonWrapper}
     >
-        <View style={styles.continueButton}>
+        <View style={buttonStyles.continueButton}>
             <Image
-                style={styles.continueButtonImg}
+                style={buttonStyles.continueButtonImg}
                 source={require('../../assets/check.png')}
             />
         </View>
@@ -36,20 +37,36 @@ ContinueButton.propTypes = {
     continue: PropTypes.func,
 };
 
-
-const AppBar = (props) => (
-    <View style={styles.appBar}>
-        <ContinueButton continue={props.continue}/>
-        <View style={styles.appBarMain}>
-            <Text style={styles.appBarText}>Select your contacts</Text>
-        </View>
-        <View style={styles.appBarHighlight}/>
-    </View>
-);
-
-AppBar.propTypes = {
-    continue: PropTypes.func,
-};
+const buttonStyles = StyleSheet.create({
+    continueButtonWrapper: {
+        position: 'absolute',
+        right: 20,
+        top: 52,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    },
+    continueButton: {
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 50,
+        height: 50,
+        backgroundColor: Theme.Blue,
+        borderRadius: 25,
+        borderWidth: 3,
+        borderColor: Theme.White,
+        shadowColor: Theme.Black,
+        shadowOpacity: 0.16,
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 6,
+    },
+    continueButtonImg: {
+        resizeMode: 'contain',
+        width: 36,
+        height: 36,
+    },
+});
 
 
 function compareContacts(c1, c2) {
@@ -160,7 +177,12 @@ class OnboardingContactsPage extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"/>
-                <AppBar continue={this._startApp}/>
+                <AppBar>
+                    <Text style={styles.appBarText}>
+                        {'Select your contacts'}
+                    </Text>
+                    <ContinueButton continue={this._startApp}/>
+                </AppBar>
                 {contactList}
             </View>
         );
@@ -173,58 +195,11 @@ OnboardingContactsPage.propTypes = {
 };
 
 const styles = StyleSheet.create({
-    continueButtonWrapper: {
-        position: 'absolute',
-        zIndex: 12,
-        right: 20,
-        top: 52,
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-    },
-    continueButton: {
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 50,
-        height: 50,
-        backgroundColor: Theme.Blue,
-        borderRadius: 25,
-        borderWidth: 3,
-        borderColor: Theme.White,
-        shadowColor: Theme.Black,
-        shadowOpacity: 0.16,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
-    },
-    continueButtonImg: {
-        resizeMode: 'contain',
-        width: 36,
-        height: 36,
-    },
-    appBar: {
-        zIndex: 10,
-        shadowColor: Theme.DarkBlue,
-        shadowOpacity: 0.2,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
-    },
-    appBarMain: {
-        height: 80,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: Theme.Blue,
-    },
-    appBarHighlight: {
-        height: 4,
-        backgroundColor: Theme.DarkBlue,
-    },
     appBarText: {
         fontSize: 20,
         fontWeight: '600',
         color: Theme.White,
-        marginBottom: 18,
+        marginTop: 18,
     },
     container: {
         flex: 1,
