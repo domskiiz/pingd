@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import addContact from '../../api/redux/actions/addContact';
+import addContact from '../../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
 
