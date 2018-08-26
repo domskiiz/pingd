@@ -16,6 +16,7 @@ import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 
 import AppBar from '../generic/AppBar';
 import ContactCard from './OnboardingContactCard';
+import ContactSeparator from '../generic/ContactSeparator';
 import Theme from '../Theme';
 
 
@@ -110,22 +111,9 @@ class OnboardingContactsPage extends Component {
         });
     };
 
-    _getContactSeparator(letter) {
-        return (
-            <View style={styles.contactSep}>
-                <View style={styles.contactSepLine}/>
-                <View style={styles.contactSepTextWrapper}>
-                    <Text style={styles.contactSepText}>
-                        {letter}
-                    </Text>
-                </View>
-            </View>
-        );
-    }
-
     _renderContactCard(contact) {
         if (contact.item.isSeparator)
-            return this._getContactSeparator(contact.item.letter);
+            return <ContactSeparator letter={contact.item.letter}/>;
 
         return (
             <ContactCard
@@ -207,29 +195,6 @@ const styles = StyleSheet.create({
     },
     contactList: {
         padding: 20,
-    },
-    contactSep: {
-        height: 24,
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    contactSepTextWrapper: {
-        position: 'absolute',
-        left: 20,
-        width: 22,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Theme.White,
-    },
-    contactSepText: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: Theme.DarkBlue,
-        textTransform: 'uppercase',
-    },
-    contactSepLine: {
-        borderBottomColor: `${Theme.DarkBlue}50`,
-        borderBottomWidth: 1,
     },
 });
 

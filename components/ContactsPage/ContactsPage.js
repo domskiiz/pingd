@@ -21,30 +21,27 @@ class ContactsPage extends Component {
     }
 
     render() {
+        let contacts = this.props.contacts ? this.props.contacts : [];
+
         return (
             <View style={styles.container}>
-                {
-                  this.props.contacts
-                  ?
-                      <FlatList
-                          data={this.props.contacts}
-                          renderItem={(c) =>
-                              <ContactCard
-                                  firstName={c.item.contact.firstName}
-                                  lastName={c.item.contact.lastName}
-                                  phoneNumber={c.item.contact.phone}
-                              />
-                          }
-                      />
-                  : null
-                }
+                <FlatList
+                    data={contacts}
+                    renderItem={(c) =>
+                        <ContactCard
+                            firstName={c.item.contact.firstName}
+                            lastName={c.item.contact.lastName}
+                            phoneNumber={c.item.contact.phone}
+                        />
+                    }
+                />
             </View>
         );
     }
 }
 
 ContactsPage.propTypes = {
-    contacts: PropTypes.array,
+    contacts: PropTypes.array.isRequired,
     navigator: PropTypes.object,
 };
 
