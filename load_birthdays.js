@@ -32,7 +32,7 @@ function get_birthdays(ical_file){
               }
             }
             var string_events = JSON.stringify(events);
-            fs.writeFile("test.txt",
+            fs.writeFile("birthdays.txt",
                           JSON.stringify(events), function(err) {
                 if(err) {
                     return console.log(err);
