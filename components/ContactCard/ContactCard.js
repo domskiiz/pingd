@@ -19,22 +19,24 @@ class ContactCard extends Component {
 
         this.state = {
             flipped: false,
+            priority: -1,
         };
 
-        this._onClick = this._onClick.bind(this);
-        this._setPriority = this._setPriority.bind(this);
+        this.flip = this.flip.bind(this);
+        this.setPriority = this.setPriority.bind(this);
     }
 
-    _onClick() {
+    flip() {
         this.setState({flipped: !this.state.flipped});
     }
 
-    _setPriority(priority) {
+    setPriority(priority) {
         const contact = {
             name: this.props.firstName + ' ' + this.props.lastName,
             phone: this.props.phoneNumber,
         };
         this.props.addContact(contact, priority);
+        this.setState({priority: priority});
     }
 
     // TODO: this might not even be needed, but the default phone numbers
@@ -64,13 +66,32 @@ class ContactCard extends Component {
         }
     }
 
+    getBorderStyle() {
+        let style = {
+            borderColor: '',
+            borderWidth: 4,
+        };
+
+        if (this.state.priority === 0) style.borderColor = Theme.Green;
+        else if (this.state.priority === 1) style.borderColor = Theme.Blue;
+        else if (this.state.priority === 2) style.borderColor = Theme.Purple;
+
+        return style;
+    }
+
     render() {
         let name = `${this.props.firstName} ${this.props.lastName}`;
-        let phoneNumber = this.props.phoneNumber; // this.formatPhoneNumber(phoneNumber);
+        let phoneNumber = this.props.phoneNumber;  // TODO: format?
 
         let card = null;
         if (this.state.flipped)
-            card = <BucketSelector setPriority={this._setPriority}/>;
+            card = (
+                <BucketSelector
+                    priority={this.state.priority}
+                    flip={this.flip}
+                    setPriority={this.setPriority}
+                />
+            );
         else
             card = (
                 <ContactInfo
@@ -80,11 +101,12 @@ class ContactCard extends Component {
                 />
             );
 
+        let containerStyle = [styles.container];
+        if (!this.state.flipped && this.state.priority >= 0)
+            containerStyle.push(this.getBorderStyle());
+
         return (
-            <TouchableOpacity
-                style={styles.container}
-                onPress={null/* this._onClick */}
-            >
+            <TouchableOpacity style={containerStyle} onPress={this.flip}>
                 {card}
             </TouchableOpacity>
         );
@@ -96,22 +118,8 @@ ContactCard.propTypes = {
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
-    addContact: PropTypes.function,
+    addContact: PropTypes.func,
 };
-
-const mapStateToProps = () => {
-    return { };
-};
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addContact: (c, p) => dispatch(addContact(c, p)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
-
 
 const styles = StyleSheet.create({
     container: {
@@ -126,3 +134,16 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
     },
 });
+
+
+const mapStateToProps = () => {
+    return { };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addContact: (c, p) => dispatch(addContact(c, p)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
