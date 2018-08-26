@@ -1,32 +1,27 @@
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
+import configureStore from '../api/redux/store.js';
 import {Navigation} from 'react-native-navigation';
 import {registerScreens} from './screens';
 
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import reducers from '../api/redux/reducers/root';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
 
 import * as appActions from '../api/redux/actions/appActions/changeRoot';
 
-/*
- * Set up store and register screens with navigation
- */
-const store = createStore(reducers, applyMiddleware(thunk, logger));
-registerScreens(store, Provider);
+
+const storage = configureStore();
+registerScreens(storage.store, Provider);
 
 export default class App extends Component {
     constructor(props) {
         super(props);
-        store.subscribe(this.onStoreUpdate.bind(this));
-        store.dispatch(appActions.appInitialized());
+        storage.persistor.subscribe(this.onStoreUpdate.bind(this));
+        storage.store.dispatch(appActions.appInitialized());
 
     }
 
     onStoreUpdate() {
-        let {root} = store.getState().app;
+        let {root} = storage.store.getState().app;
         if (this.currentRoot != root) {
             this.currentRoot = root;
             this.startApp(root);

@@ -10,5 +10,4 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('pingd.Calendar', () => Calendar, store, Provider);
     Navigation.registerComponent('pingd.PingList', () => PingList, store, Provider);
     Navigation.registerComponent('pingd.Onboarding', () => Onboarding, store, Provider);
-
 }
