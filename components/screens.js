@@ -4,7 +4,8 @@ import ContactsPage from './ContactsPage/ContactsPage';
 import PingList from './PingList/PingList';
 import Calendar from './Calendar/Calendar';
 import Onboarding from './Onboarding/Onboarding';
-import OnboardingContactsPage from './OnboardingContactsPage';
+import OnboardingContactsPage
+    from './OnboardingContactsPage/OnboardingContactsPage';
 
 export function registerScreens(store, Provider) {
     Navigation.registerComponent('pingd.Contacts', () =>

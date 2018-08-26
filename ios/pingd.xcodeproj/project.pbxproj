@@ -1309,7 +1309,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.pingddddd;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.pingd;
 				PRODUCT_NAME = pingd;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1340,7 +1340,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.pingddddd;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.pingd;
 				PRODUCT_NAME = pingd;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";

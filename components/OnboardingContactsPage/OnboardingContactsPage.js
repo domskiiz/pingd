@@ -23,7 +23,7 @@ const ContinueButton = () => (
         <View style={styles.continueButton}>
             <Image
                 style={styles.continueButtonImg}
-                source={require('../assets/check.png')}
+                source={require('../../assets/check.png')}
             />
         </View>
     </TouchableOpacity>
