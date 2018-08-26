@@ -31,6 +31,11 @@ class ContactCard extends Component {
     }
 
     setPriority(priority) {
+        if (priority == this.state.priority) {
+            this.setState({priority: -1});
+            return;
+        }
+
         const contact = {
             name: this.props.firstName + ' ' + this.props.lastName,
             phone: this.props.phoneNumber,
