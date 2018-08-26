@@ -11,16 +11,42 @@ import Card from './Card';
 import Theme from '../Theme';
 
 
+const FRIEND       = 0;
+const ACQUAINTANCE = 1;
+const TOUCHPOINT   = 2;
+
+function getImageBorder(priority) {
+    let style = {
+        borderColor: '',
+        borderWidth: 3,
+    };
+
+    if (priority === FRIEND) {
+        style.borderColor = Theme.Green;
+    } else if (priority === ACQUAINTANCE) {
+        style.borderColor = Theme.Blue;
+    } else if (priority === TOUCHPOINT) {
+        style.borderColor = Theme.Purple;
+    }
+
+    return style;
+}
+
+
 const ContactCard = (props) => {
     let contactImg = {uri: props.thumbnail};
     if (!props.thumbnail)
         contactImg = require('../../assets/pingd_contact.png');
 
+    let imageStyle = [styles.image];
+    if (props.priority >= 0)
+        imageStyle.push(getImageBorder(props.priority));
+
     return (
         <Card style={[styles.container, props.style]}>
             <Image
                 source={contactImg}
-                style={styles.image}
+                style={imageStyle}
             />
             <View style={styles.info}>
                 <Text style={styles.name}>{props.name}</Text>
@@ -33,8 +59,9 @@ const ContactCard = (props) => {
 ContactCard.propTypes = {
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
+    priority: PropTypes.number,
     style: PropTypes.array,
+    thumbnail: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -50,7 +77,7 @@ const styles = StyleSheet.create({
         height: 58,
         borderRadius: 29,
         margin: 20,
-        backgroundColor: Theme.Blue,
+        backgroundColor: `${Theme.Blue}80`,
     },
     info: {
         justifyContent: 'center',

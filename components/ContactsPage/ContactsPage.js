@@ -73,6 +73,7 @@ class ContactsPage extends Component {
                     style={[styles.card]}
                     name={name}
                     phoneNumber={contact.item.phoneNumber}
+                    priority={contact.item.priority}
                     thumbnail={contact.item.thumbnail}
                 />
             </TouchableOpacity>
