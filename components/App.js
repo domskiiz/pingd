@@ -15,9 +15,12 @@ registerScreens(storage.store, Provider);
 export default class App extends Component {
     constructor(props) {
         super(props);
-        storage.persistor.subscribe(this.onStoreUpdate.bind(this));
+        /*
+         *  Uncomment following line to purge state of app, and run app once.
+         */
+        // storage.persistor.purge();
+        storage.store.subscribe(this.onStoreUpdate.bind(this));
         storage.store.dispatch(appActions.appInitialized());
-
     }
 
     onStoreUpdate() {
@@ -60,7 +63,15 @@ export default class App extends Component {
                 Navigation.startSingleScreenApp({
                     screen: {
                         screen: 'pingd.Onboarding',
-                        title: 'Login',
+                    },
+                });
+                return;
+            }
+
+            case 'importing': {
+                Navigation.startSingleScreenApp({
+                    screen: {
+                        screen: 'pingd.ImportContacts',
                     },
                 });
                 return;

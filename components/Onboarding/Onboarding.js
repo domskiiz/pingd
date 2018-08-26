@@ -18,7 +18,7 @@ class Onboarding extends Component {
     }
 
     _startApp = () => {
-        this.props.startApp();
+        this.props.startAppImporting();
     }
 
     render() {
@@ -45,7 +45,7 @@ class Onboarding extends Component {
 
 
 Onboarding.propTypes = {
-    startApp: PropTypes.function,
+    startAppImporting: PropTypes.function,
 };
 
 
@@ -55,7 +55,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startApp: () => dispatch(appActions.login()),
+        startAppImporting: () => dispatch(appActions.login()),
     };
 };
 

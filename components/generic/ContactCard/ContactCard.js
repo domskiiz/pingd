@@ -29,7 +29,8 @@ class ContactCard extends Component {
 
     _setPriority(priority) {
         const contact = {
-            name: this.props.firstName + ' ' + this.props.lastName,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
             phone: this.props.phoneNumber,
         };
         this.props.addContact(contact, priority);

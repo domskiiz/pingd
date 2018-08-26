@@ -2,58 +2,57 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Button,
     FlatList,
 } from 'react-native';
-import Contacts from 'react-native-contacts';
+import PropTypes from 'prop-types';
 
-import ContactCard from './ContactCard/ContactCard';
+import ContactCard from '../generic/ContactCard/ContactCard';
 
+import {connect} from 'react-redux';
 
-export default class ContactsPage extends Component {
+class ContactsPage extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-          contacts: [],
-        };
     }
-
-
-    getContacts = () => {
-        Contacts.getAll((err, c) => {
-            if (err) {
-                throw err;
-            }
-            this.setState({contacts: c});
-        });
-    };
 
     render() {
         return (
             <View style={styles.container}>
-                <Button title={'Get Contacts'}
-                        onPress={() => this.getContacts()}
-                />
-                    {
-                      this.state.contacts.length !== 0
-                      ? <FlatList
-                          data={this.state.contacts}
+                {
+                  this.props.contacts
+                  ?
+                      <FlatList
+                          data={this.props.contacts}
                           renderItem={(c) =>
                               <ContactCard
-                                  firstName={c.item.givenName}
-                                  lastName={c.item.familyName}
-                                  phoneNumber={c.item.phoneNumbers[0].number}
-                                  emails={c.item.emailAddresses}
+                                  firstName={c.item.contact.firstName}
+                                  lastName={c.item.contact.lastName}
+                                  phoneNumber={c.item.contact.phone}
                               />
                           }
-                        />
-                      : null
-                    }
+                      />
+                  : null
+                }
             </View>
         );
     }
 }
+
+ContactsPage.propTypes = {
+    contacts: PropTypes.array,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        contacts: state.contacts,
+    };
+};
+
+const mapDispatchToProps = () => {
+    return { };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
 
 
 const styles = StyleSheet.create({
