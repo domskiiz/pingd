@@ -8,11 +8,16 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ContactCard from '../generic/ContactCard';
+import Theme from '../Theme';
 
 
 class ContactsPage extends Component {
     constructor(props) {
         super(props);
+        this.props.navigator.toggleNavBar({
+            to: 'hidden',
+            animated: false,
+        });
     }
 
     render() {
@@ -40,7 +45,16 @@ class ContactsPage extends Component {
 
 ContactsPage.propTypes = {
     contacts: PropTypes.array,
+    navigator: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Theme.White,
+        margin: 10,
+    },
+});
 
 const mapStateToProps = (state) => {
     return {
@@ -53,12 +67,3 @@ const mapDispatchToProps = () => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#bdc3c7',
-        margin: 10,
-    },
-});
