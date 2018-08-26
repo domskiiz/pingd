@@ -15,6 +15,11 @@ import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 class Onboarding extends Component {
     constructor(props) {
         super(props);
+        this.props.navigator.toggleNavBar({
+            to: 'hidden',
+            animated: false,
+        });
+
         this._startApp = this._startApp.bind(this);
     }
 
@@ -43,9 +48,8 @@ class Onboarding extends Component {
     }
 }
 
-
-
 Onboarding.propTypes = {
+    navigator: PropTypes.object,
     startAppImporting: PropTypes.func,
 };
 

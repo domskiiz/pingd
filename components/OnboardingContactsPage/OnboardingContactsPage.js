@@ -71,6 +71,10 @@ function compareContacts(c1, c2) {
 class OnboardingContactsPage extends Component {
     constructor(props) {
         super(props);
+        this.props.navigator.toggleNavBar({
+            to: 'hidden',
+            animated: false,
+        });
 
         this.state = {
             contacts: [],
@@ -164,6 +168,7 @@ class OnboardingContactsPage extends Component {
 }
 
 OnboardingContactsPage.propTypes = {
+    navigator: PropTypes.object,
     startMainApp: PropTypes.func,
 };
 
