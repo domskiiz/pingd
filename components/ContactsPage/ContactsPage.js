@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Theme.White,
-        margin: 10,
     },
     contactList: {
         padding: 20,
