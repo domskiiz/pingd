@@ -55,6 +55,7 @@ export default class App extends Component {
             contactList = (
                 <FlatList
                     data={this.state.contacts}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={this.renderContactCard}
                 />
             );
