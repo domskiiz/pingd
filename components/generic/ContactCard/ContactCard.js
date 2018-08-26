@@ -76,11 +76,23 @@ class ContactCard extends Component {
         let style = {
             borderColor: '',
             borderWidth: 4,
+            shadowColor: '',
+            shadowOpacity: 0.3,
         };
 
-        if (this.state.priority === 0) style.borderColor = Theme.Green;
-        else if (this.state.priority === 1) style.borderColor = Theme.Blue;
-        else if (this.state.priority === 2) style.borderColor = Theme.Purple;
+        if (this.state.priority >= 0)
+            style.shadowOpacity = 0.8;
+
+        if (this.state.priority === 0) {
+            style.borderColor = Theme.Green;
+            style.shadowColor = Theme.Green;
+        } else if (this.state.priority === 1) {
+            style.borderColor = Theme.Blue;
+            style.shadowColor = Theme.Blue;
+        } else if (this.state.priority === 2) {
+            style.borderColor = Theme.Purple;
+            style.shadowColor = Theme.Purple;
+        }
 
         return style;
     }
