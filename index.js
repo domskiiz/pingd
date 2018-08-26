@@ -1,2 +1,2 @@
-import App from './app/App';
+import App from './src/app/App';
 const app = new App();

@@ -11,8 +11,7 @@ import Contacts from 'react-native-contacts';
 import ContactCard from '../generic/ContactCard/ContactCard';
 
 import {connect} from 'react-redux';
-import * as appActions from '../../api/redux/actions/appActions/changeRoot';
-
+import {screensOperations} from '../Screens/ducks';
 
 class ImportAndSelectContactsPage extends Component {
     constructor(props) {
@@ -34,7 +33,7 @@ class ImportAndSelectContactsPage extends Component {
 
     _startMainApp = () => {
         this.props.startMainApp();
-    }
+    };
 
     render() {
         return (
@@ -75,7 +74,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startMainApp: () => dispatch(appActions.contactsDoneImporting()),
+        startMainApp: () => dispatch(screensOperations.contactsDoneImporting()),
     };
 };
 

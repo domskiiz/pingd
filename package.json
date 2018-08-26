@@ -18,7 +18,8 @@
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-subscriber": "^1.1.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",

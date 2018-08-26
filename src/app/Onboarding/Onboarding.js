@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Swiper from 'react-native-swiper';
 
 import {connect} from 'react-redux';
-import * as appActions from '../../api/redux/actions/appActions/changeRoot';
+import {screensOperations} from '../Screens/ducks';
 
 class Onboarding extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class Onboarding extends Component {
 
     _startApp = () => {
         this.props.startAppImporting();
-    }
+    };
 
     render() {
         return (
@@ -55,7 +55,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startAppImporting: () => dispatch(appActions.login()),
+        startAppImporting: () => dispatch(screensOperations.login()),
     };
 };
 
