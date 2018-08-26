@@ -102,29 +102,32 @@ class ContactCard extends Component {
         let phoneNumber = this.props.phoneNumber;  // TODO: format?
 
         let card = null;
-        if (this.state.flipped)
+        let cardStyle = [styles.card];
+        if (this.state.flipped) {
             card = (
                 <BucketSelector
+                    style={cardStyle}
                     priority={this.state.priority}
                     flip={this.flip}
                     setPriority={this.setPriority}
                 />
             );
-        else
+        } else {
+            if (this.state.priority >= 0)
+                cardStyle.push(this.getBorderStyle());
+
             card = (
                 <ContactInfo
+                    style={cardStyle}
                     name={name}
                     phoneNumber={phoneNumber}
                     thumbnail={this.props.thumbnail}
                 />
             );
-
-        let containerStyle = [styles.container];
-        if (!this.state.flipped && this.state.priority >= 0)
-            containerStyle.push(this.getBorderStyle());
+        }
 
         return (
-            <TouchableOpacity style={containerStyle} onPress={this.flip}>
+            <TouchableOpacity style={styles.container} onPress={this.flip}>
                 {card}
             </TouchableOpacity>
         );
@@ -142,14 +145,11 @@ ContactCard.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 80,
         marginTop: 10,
         marginBottom: 10,
-        backgroundColor: Theme.LightBlue,
-        shadowColor: Theme.DarkBlue,
-        shadowOpacity: 0.3,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
+    },
+    card: {
+        height: 80,
     },
 });
 

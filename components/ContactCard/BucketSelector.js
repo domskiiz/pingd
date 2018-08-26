@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import Card from '../generic/Card';
 import Theme from '../Theme';
 
 
@@ -63,7 +64,7 @@ class BucketSelector extends Component {
     render() {
         let priority = this.props.priority;
         return (
-            <View style={styles.container}>
+            <Card style={[styles.container, this.props.style]}>
                 <Selector friend
                     selected={priority < 0 || priority === FRIEND}
                     setPriority={() => this.select(FRIEND)}
@@ -76,7 +77,7 @@ class BucketSelector extends Component {
                     selected={priority < 0 || priority === TOUCHPOINT}
                     setPriority={() => this.select(TOUCHPOINT)}
                 />
-            </View>
+            </Card>
         );
     }
 }
@@ -85,6 +86,7 @@ BucketSelector.propTypes = {
     priority: PropTypes.number.isRequired,
     flip: PropTypes.func.isRequired,
     setPriority: PropTypes.func.isRequired,
+    style: PropTypes.array,
 };
 
 

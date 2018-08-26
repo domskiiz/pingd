@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import Card from '../generic/Card';
 import Theme from '../Theme';
 
 
@@ -16,7 +17,7 @@ const ContactInfo = (props) => {
         contactImg = require('../../assets/pingd_contact.png');
 
     return (
-        <View style={styles.container}>
+        <Card style={[styles.container, props.style]}>
             <Image
                 source={contactImg}
                 style={styles.image}
@@ -25,7 +26,7 @@ const ContactInfo = (props) => {
                 <Text style={styles.name}>{props.name}</Text>
                 <Text style={styles.phone}>{props.phoneNumber}</Text>
             </View>
-        </View>
+        </Card>
     );
 };
 
@@ -33,6 +34,7 @@ ContactInfo.propTypes = {
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
+    style: PropTypes.array,
 };
 
 const styles = StyleSheet.create({
