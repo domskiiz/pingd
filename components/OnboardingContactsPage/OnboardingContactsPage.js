@@ -15,8 +15,8 @@ import PropTypes from 'prop-types';
 import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 
 import AppBar from '../generic/AppBar';
-import ContactCard from './OnboardingContactCard';
 import ContactSeparator from '../generic/ContactSeparator';
+import OnboardingContactCard from './OnboardingContactCard';
 import Theme from '../Theme';
 
 
@@ -118,7 +118,7 @@ class OnboardingContactsPage extends Component {
             return <ContactSeparator letter={contact.item.letter}/>;
 
         return (
-            <ContactCard
+            <OnboardingContactCard
                 firstName={contact.item.givenName}
                 lastName={contact.item.familyName}
                 phoneNumber={contact.item.phoneNumbers[0].number}

@@ -39,9 +39,11 @@ class OnboardingContactCard extends Component {
         const contact = {
             firstName: this.props.firstName,
             lastName: this.props.lastName,
-            phone: this.props.phoneNumber,
+            phoneNumber: this.props.phoneNumber,
+            thumbnail: this.props.thumbnail,
+            priority: priority,
         };
-        this.props.addContact(contact, priority);
+        this.props.addContact(contact);
         this.setState({priority: priority});
     }
 
@@ -72,7 +74,7 @@ class OnboardingContactCard extends Component {
         }
     }
 
-    getBorderStyle() {
+    _getBorderStyle() {
         let style = {
             borderColor: '',
             borderWidth: 4,
@@ -114,7 +116,7 @@ class OnboardingContactCard extends Component {
             );
         } else {
             if (this.state.priority >= 0)
-                cardStyle.push(this.getBorderStyle());
+                cardStyle.push(this._getBorderStyle());
 
             card = (
                 <ContactCard
@@ -139,7 +141,7 @@ OnboardingContactCard.propTypes = {
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
-    addContact: PropTypes.func,
+    addContact: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
