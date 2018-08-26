@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 80,
-        margin: 10,
+        marginTop: 10,
+        marginBottom: 10,
         backgroundColor: Theme.LightBlue,
         shadowColor: Theme.DarkBlue,
         shadowOpacity: 0.3,

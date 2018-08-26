@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 22,
-        fontWeight: '600',
+        fontWeight: '500',
         color: Theme.DarkBlue,
     },
     phone: {
