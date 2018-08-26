@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Card from '../generic/Card';
+import Card from './Card';
 import Theme from '../Theme';
 
 
-const ContactInfo = (props) => {
+const ContactCard = (props) => {
     let contactImg = {uri: props.thumbnail};
     if (!props.thumbnail)
         contactImg = require('../../assets/pingd_contact.png');
@@ -30,7 +30,7 @@ const ContactInfo = (props) => {
     );
 };
 
-ContactInfo.propTypes = {
+ContactCard.propTypes = {
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContactInfo;
+export default ContactCard;

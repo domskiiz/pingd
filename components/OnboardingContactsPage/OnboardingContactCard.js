@@ -9,7 +9,7 @@ import addContact from '../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
 import BucketSelector from '../ContactCard/BucketSelector';
-import ContactInfo from '../ContactCard/ContactInfo';
+import ContactCard from '../generic/ContactCard';
 import Theme from '../Theme';
 
 
@@ -117,7 +117,7 @@ class OnboardingContactCard extends Component {
                 cardStyle.push(this.getBorderStyle());
 
             card = (
-                <ContactInfo
+                <ContactCard
                     style={cardStyle}
                     name={name}
                     phoneNumber={phoneNumber}

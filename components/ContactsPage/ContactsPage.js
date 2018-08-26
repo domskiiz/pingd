@@ -4,11 +4,11 @@ import {
     View,
     FlatList,
 } from 'react-native';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ContactCard from '../OnboardingContactsPage/OnboardingContactCard';
+import ContactCard from '../generic/ContactCard';
 
-import {connect} from 'react-redux';
 
 class ContactsPage extends Component {
     constructor(props) {
