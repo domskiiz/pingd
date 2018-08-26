@@ -38,20 +38,24 @@ export default class App extends Component {
         });
     };
 
+    renderContactCard(contact) {
+        return (
+            <ContactCard
+                firstName={contact.item.givenName}
+                lastName={contact.item.familyName}
+                phoneNumber={contact.item.phoneNumbers[0].number}
+                emails={contact.item.emailAddresses}
+            />
+        )
+    }
+
     render() {
         let contactList = null;
         if (this.state.contacts.length > 0)
             contactList = (
                 <FlatList
                     data={this.state.contacts}
-                    renderItem={c =>
-                        <ContactCard
-                            firstName={c.item.givenName}
-                            lastName={c.item.familyName}
-                            phoneNumber={c.item.phoneNumbers[0].number}
-                            emails={c.item.emailAddresses}
-                        />
-                    }
+                    renderItem={this.renderContactCard}
                 />
             );
 

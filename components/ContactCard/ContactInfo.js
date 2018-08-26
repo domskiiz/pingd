@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 
-const CardInfo = (props) => {
+const ContactInfo = (props) => {
     return (
         <View style={styles.container}>
             <Image></Image>
@@ -20,7 +20,7 @@ const CardInfo = (props) => {
     );
 };
 
-CardInfo.propTypes = {
+ContactInfo.propTypes = {
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
 };
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CardInfo;
+export default ContactInfo;

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
-    Button,
     StyleSheet,
-    View,
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -10,12 +8,8 @@ import PropTypes from 'prop-types';
 import addContact from '../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
-import CardInfo from './CardInfo';
-
-
-const FRIEND       = 0;
-const ACQUAINTANCE = 1;
-const TOUCHPOINT   = 2;
+import BucketSelector from './BucketSelector';
+import ContactInfo from './ContactInfo';
 
 
 class ContactCard extends Component {
@@ -43,35 +37,25 @@ class ContactCard extends Component {
 
     render() {
         let name = `${this.props.firstName} ${this.props.lastName}`;
+
+        let card = null;
+        if (this.state.flipped)
+            card = (
+                <BucketSelector
+                    setPriority={this._setPriority}
+                />
+            );
+        else
+            card = (
+                <ContactInfo
+                    name={name}
+                    phoneNumber={this.props.phoneNumber}
+                />
+            );
+
         return (
             <TouchableOpacity style={styles.container} onPress={this._onClick}>
-                {
-                    this.state.flipped
-                    ?
-                        <View style={styles.container}>
-                            <Button
-                                onClick={this._setPriority.bind(FRIEND)}
-                                title="1"
-                                color="#2980b9"
-                            />
-                            <Button
-                                onClick={this._setPriority.bind(ACQUAINTANCE)}
-                                title="2"
-                                color="#27ae60"
-                            />
-                            <Button
-                                onClick={this._setPriority.bind(TOUCHPOINT)}
-                                title="3"
-                                color="#16a085"
-                            />
-                        </View>
-                    :
-                        <CardInfo
-                            name={name}
-                            phoneNumber={this.props.phoneNumber}
-                        />
-                }
-
+                {card}
             </TouchableOpacity>
         );
     }
