@@ -20,7 +20,7 @@ import Theme from '../Theme';
 
 const ContinueButton = (props) => (
     <TouchableOpacity
-        onPress={props.startMainApp}
+        onPress={props.continue}
         style={styles.continueButtonWrapper}
     >
         <View style={styles.continueButton}>
@@ -33,13 +33,13 @@ const ContinueButton = (props) => (
 );
 
 ContinueButton.propTypes = {
-    startMainApp: PropTypes.func,
+    continue: PropTypes.func,
 };
 
 
 const AppBar = (props) => (
     <View style={styles.appBar}>
-        <ContinueButton startMainApp={props.startMainApp}/>
+        <ContinueButton continue={props.continue}/>
         <View style={styles.appBarMain}>
             <Text style={styles.appBarText}>Select your contacts</Text>
         </View>
@@ -48,7 +48,7 @@ const AppBar = (props) => (
 );
 
 AppBar.propTypes = {
-    startMainApp: PropTypes.func,
+    continue: PropTypes.func,
 };
 
 
@@ -78,6 +78,7 @@ class OnboardingContactsPage extends Component {
 
         this._getContacts = this._getContacts.bind(this);
         this._renderContactCard = this._renderContactCard.bind(this);
+        this._startApp = this._startApp.bind(this);
     }
 
     _getContacts = () => {
@@ -132,6 +133,10 @@ class OnboardingContactsPage extends Component {
         return processed;
     }
 
+    _startApp() {
+        this.props.startMainApp();
+    }
+
     UNSAFE_componentWillMount() {
         this._getContacts();
     }
@@ -151,7 +156,7 @@ class OnboardingContactsPage extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"/>
-                <AppBar startMainApp={this.props.startMainApp}/>
+                <AppBar continue={this._startApp}/>
                 {contactList}
             </View>
         );

@@ -15,6 +15,7 @@ import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 class Onboarding extends Component {
     constructor(props) {
         super(props);
+        this._startApp = this._startApp.bind(this);
     }
 
     _startApp = () => {
@@ -34,7 +35,7 @@ class Onboarding extends Component {
                     <Text>Yay! lets import your contacts</Text>
                     <Button
                         title="Get started"
-                        onPress={() => this._startApp()}
+                        onPress={this._startApp}
                     />
                 </View>
             </Swiper>
