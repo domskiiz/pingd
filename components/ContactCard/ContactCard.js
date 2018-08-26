@@ -46,7 +46,13 @@ class ContactCard extends Component {
         if (this.state.flipped)
             card = <BucketSelector setPriority={this._setPriority}/>;
         else
-            card = <ContactInfo name={name} phoneNumber={phoneNumber}/>;
+            card = (
+                <ContactInfo
+                    name={name}
+                    phoneNumber={phoneNumber}
+                    thumbnail={this.props.thumbnail}
+                />
+            );
 
         return (
             <TouchableOpacity
@@ -63,6 +69,7 @@ ContactCard.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
     addContact: PropTypes.function,
 };
 

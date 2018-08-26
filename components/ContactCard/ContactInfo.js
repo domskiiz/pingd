@@ -11,9 +11,16 @@ import Theme from '../Theme';
 
 
 const ContactInfo = (props) => {
+    let contactImg = {uri: props.thumbnail};
+    if (!props.thumbnail)
+        contactImg = require('../../assets/pingd_contact.png');
+
     return (
         <View style={styles.container}>
-            <Image style={styles.image}></Image>
+            <Image
+                source={contactImg}
+                style={styles.image}
+            />
             <View style={styles.info}>
                 <Text style={styles.name}>{props.name}</Text>
                 <Text style={styles.phone}>{props.phoneNumber}</Text>
@@ -25,6 +32,7 @@ const ContactInfo = (props) => {
 ContactInfo.propTypes = {
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -35,6 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
+        resizeMode: 'contain',
         width: 58,
         height: 58,
         borderRadius: 29,

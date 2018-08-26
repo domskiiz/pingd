@@ -88,7 +88,7 @@ export default class App extends Component {
                 firstName={contact.item.givenName}
                 lastName={contact.item.familyName}
                 phoneNumber={contact.item.phoneNumbers[0].number}
-                emails={contact.item.emailAddresses}
+                thumbnail={contact.item.thumbnailPath}
             />
         )
     }
