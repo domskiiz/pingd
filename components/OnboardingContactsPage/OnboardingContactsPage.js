@@ -101,6 +101,8 @@ class OnboardingContactsPage extends Component {
         this._getContacts = this._getContacts.bind(this);
         this._renderContactCard = this._renderContactCard.bind(this);
         this._startApp = this._startApp.bind(this);
+
+        this._getContacts();
     }
 
     _getContacts = () => {
@@ -144,10 +146,6 @@ class OnboardingContactsPage extends Component {
 
     _startApp() {
         this.props.startMainApp();
-    }
-
-    UNSAFE_componentWillMount() {
-        this._getContacts();
     }
 
     render() {
