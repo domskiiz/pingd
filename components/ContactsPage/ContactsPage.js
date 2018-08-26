@@ -8,6 +8,7 @@ import {
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import AppBar from '../generic/AppBar';
 import ContactCard from '../generic/ContactCard';
 import ContactSeparator from '../generic/ContactSeparator';
 import Theme from '../Theme';
@@ -84,6 +85,7 @@ class ContactsPage extends Component {
 
         return (
             <View style={styles.container}>
+                <AppBar/>
                 <FlatList
                     contentContainerStyle={styles.contactList}
                     data={this._addContactSeparators(contacts)}

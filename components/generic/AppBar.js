@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    StatusBar,
     StyleSheet,
     View,
 } from 'react-native';
@@ -15,6 +16,7 @@ const AppBar = (props) => {
 
     return (
         <View style={style}>
+            <StatusBar barStyle="light-content"/>
             <View style={styles.appBarMain}>
                 {props.children}
             </View>

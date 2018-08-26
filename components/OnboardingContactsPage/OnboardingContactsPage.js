@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {
     FlatList,
     Image,
-    StatusBar,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -162,7 +161,6 @@ class OnboardingContactsPage extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar barStyle="light-content"/>
                 <AppBar>
                     <Text style={styles.appBarText}>
                         {'Select your contacts'}
