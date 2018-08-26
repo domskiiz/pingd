@@ -5,15 +5,15 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import addContact from '../../../api/redux/actions/addContact';
+import addContact from '../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
-import BucketSelector from '../../ContactCard/BucketSelector';
-import ContactInfo from '../../ContactCard/ContactInfo';
-import Theme from '../../Theme';
+import BucketSelector from '../ContactCard/BucketSelector';
+import ContactInfo from '../ContactCard/ContactInfo';
+import Theme from '../Theme';
 
 
-class ContactCard extends Component {
+class OnboardingContactCard extends Component {
     constructor(props) {
         super(props);
 
@@ -134,7 +134,7 @@ class ContactCard extends Component {
     }
 }
 
-ContactCard.propTypes = {
+OnboardingContactCard.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
@@ -164,4 +164,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
+export default connect(
+    mapStateToProps, mapDispatchToProps)(OnboardingContactCard);

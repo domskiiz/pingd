@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 
-import ContactCard from '../generic/ContactCard/ContactCard';
+import ContactCard from './OnboardingContactCard';
 import Theme from '../Theme';
 
 

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import ContactCard from '../generic/ContactCard/ContactCard';
+import ContactCard from '../OnboardingContactsPage/OnboardingContactCard';
 
 import {connect} from 'react-redux';
 
