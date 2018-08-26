@@ -1,8 +1,10 @@
 import contacts from './contacts';
-// import {combineReducers} from 'redux';
+import app from './app.js';
+import {combineReducers} from 'redux';
 
-// const reducers = combineReducers({
-//     contacts,
-// });
+const reducers = combineReducers({
+    contacts,
+    app,
+});
 
-export default contacts;
+export default reducers;
