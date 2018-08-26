@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import addContact from '../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
-import BucketSelector from '../ContactCard/BucketSelector';
+import BucketSelector from './BucketSelector';
 import ContactCard from '../generic/ContactCard';
 import Theme from '../Theme';
 
