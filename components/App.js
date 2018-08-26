@@ -19,6 +19,21 @@ import ContactCard from './ContactCard/ContactCard';
 import Theme from './Theme';
 
 
+const compareContacts = (c1, c2) => {
+    if (c1.familyName < c2.familyName)
+        return -1;
+    else if (c1.familyName > c2.familyName)
+        return 1;
+    else {
+        if (c1.givenName < c2.givenName)
+            return -1;
+        else if (c1.givenName > c2.givenName)
+            return 1;
+    }
+
+    return 0;
+};
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -31,10 +46,10 @@ export default class App extends Component {
     }
 
     getContacts = () => {
-        Contacts.getAll((err, c) => {
+        Contacts.getAll((err, contacts) => {
             if (err)
                 throw err;
-            this.setState({ contacts: c });
+            this.setState({ contacts: contacts.sort(compareContacts) });
         });
     };
 

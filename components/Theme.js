@@ -4,7 +4,7 @@
  */
 
 const Theme = {
-    Blue: '#668BA4',
+    Blue: '#668ba4',
     DarkBlue: '#335466',
     LightBlue: '#f7fcff',
 

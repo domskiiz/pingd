@@ -39,26 +39,19 @@ class ContactCard extends Component {
 
     render() {
         let name = `${this.props.firstName} ${this.props.lastName}`;
+        // TODO: put in a consistent format
+        let phoneNumber = this.props.phoneNumber;
 
         let card = null;
         if (this.state.flipped)
-            card = (
-                <BucketSelector
-                    setPriority={this._setPriority}
-                />
-            );
+            card = <BucketSelector setPriority={this._setPriority}/>;
         else
-            card = (
-                <ContactInfo
-                    name={name}
-                    phoneNumber={this.props.phoneNumber}
-                />
-            );
+            card = <ContactInfo name={name} phoneNumber={phoneNumber}/>;
 
         return (
             <TouchableOpacity
                 style={styles.container}
-                onPress={this._onClick}
+                onPress={null/* this._onClick */}
             >
                 {card}
             </TouchableOpacity>
