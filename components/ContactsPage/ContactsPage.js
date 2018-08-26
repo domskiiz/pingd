@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
     FlatList,
     StyleSheet,
+    Text,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -86,7 +87,9 @@ class ContactsPage extends Component {
 
         return (
             <View style={styles.container}>
-                <AppBar/>
+                <AppBar>
+                    <Text style={styles.title}>Contacts</Text>
+                </AppBar>
                 <FlatList
                     contentContainerStyle={styles.contactList}
                     data={this._addContactSeparators(contacts)}
@@ -117,6 +120,12 @@ const styles = StyleSheet.create({
     },
     card: {
         height: 80,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: '600',
+        color: Theme.White,
+        marginTop: 18,
     },
 });
 
