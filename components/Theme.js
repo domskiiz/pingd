@@ -15,6 +15,7 @@ const Theme = {
     Purple: '#ae8fcc',
     FadedPurple: '#e0d8ea',
 
+    Black: '#000000',
     White: '#ffffff',
 };
 
