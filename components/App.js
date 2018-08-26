@@ -1,240 +1,83 @@
-import React, {Component} from 'react';
-import {
-    FlatList,
-    Image,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-
+import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
+import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 
-import {createStore, applyMiddleware} from 'redux';
-import contacts from '../api/redux/reducers/root';
-import logger from 'redux-logger';
+import configureStore from '../api/redux/store.js';
+import * as appActions from '../api/redux/actions/appActions/changeRoot';
 
-const store = createStore(contacts, applyMiddleware(logger));
-
-import Contacts from 'react-native-contacts';
-import ContactCard from './ContactCard/ContactCard';
-import Theme from './Theme';
+import {registerScreens} from './screens';
 
 
-const compareContacts = (c1, c2) => {
-    if (c1.familyName < c2.familyName)
-        return -1;
-    else if (c1.familyName > c2.familyName)
-        return 1;
-    else {
-        if (c1.givenName < c2.givenName)
-            return -1;
-        else if (c1.givenName > c2.givenName)
-            return 1;
-    }
-
-    return 0;
-};
-
-
-const ContinueButton = () => (
-    <TouchableOpacity style={styles.continueButtonWrapper}>
-        <View style={styles.continueButton}>
-            <Image
-                style={styles.continueButtonImg}
-                source={require('../assets/check.png')}
-            />
-        </View>
-    </TouchableOpacity>
-);
-
-
-const AppBar = () => (
-    <View style={styles.appBar}>
-        <ContinueButton/>
-        <View style={styles.appBarMain}>
-            <Text style={styles.appBarText}>Select your contacts</Text>
-        </View>
-        <View style={styles.appBarHighlight}/>
-    </View>
-);
+const storage = configureStore();
+registerScreens(storage.store, Provider);
 
 
 export default class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            contacts: [],
-        };
-
-        this.getContacts = this.getContacts.bind(this);
-        this.renderContactCard = this.renderContactCard.bind(this);
+        // NOTE: uncomment following line to purge state of app and run app once
+        // storage.persistor.purge();
+        storage.store.subscribe(this.onStoreUpdate.bind(this));
+        storage.store.dispatch(appActions.appInitialized());
     }
 
-    getContacts = () => {
-        Contacts.getAll((err, contacts) => {
-            if (err)
-                throw err;
-            this.setState({ contacts: contacts.sort(compareContacts) });
-        });
-    };
-
-    getContactSeparator(letter) {
-        return (
-            <View style={styles.contactSep}>
-                <View style={styles.contactSepLine}/>
-                <View style={styles.contactSepTextWrapper}>
-                    <Text style={styles.contactSepText}>
-                        {letter}
-                    </Text>
-                </View>
-            </View>
-        );
+    onStoreUpdate() {
+        let {root} = storage.store.getState().app;
+        if (this.currentRoot != root) {
+            this.currentRoot = root;
+            this.startApp(root);
+        }
     }
 
-    renderContactCard(contact) {
-        if (contact.item.isSeparator) 
-            return this.getContactSeparator(contact.item.letter);
-
-        return (
-            <ContactCard
-                firstName={contact.item.givenName}
-                lastName={contact.item.familyName}
-                phoneNumber={contact.item.phoneNumbers[0].number}
-                thumbnail={contact.item.thumbnailPath}
-            />
-        )
-    }
-
-    addContactSeparators(contacts) {
-        let processed = [];
-        let lastInitial = null;
-
-        for (let i = 0; i < contacts.length; i++) {
-            let initial = contacts[i].familyName[0];
-            if (initial != lastInitial) {
-                processed.push({ isSeparator: true, letter: initial });
-                lastInitial = initial;
+    startApp(root) {
+        switch (root) {
+            case 'app': {
+                Navigation.startTabBasedApp({
+                    tabs: [
+                        {
+                            label: 'Contacts',
+                            screen: 'pingd.Contacts',
+                            icon: require('../assets/contacts_unselected.png'),
+                            selectedIcon: require('../assets/contacts_selected.png'),
+                        },
+                        {
+                            label: 'Ping List',
+                            screen: 'pingd.PingList',
+                            icon: require('../assets/ping_list_unselected.png'),
+                            selectedIcon: require('../assets/ping_list_selected.png'),
+                        },
+                        {
+                            label: 'Calendar',
+                            screen: 'pingd.Calendar',
+                            icon: require('../assets/calendar_unselected.png'),
+                            selectedIcon: require('../assets/calendar_selected.png'),
+                        },
+                    ],
+                });
+                return;
             }
 
-            processed.push(contacts[i]);
+            case 'login': {
+                Navigation.startSingleScreenApp({
+                    screen: {
+                        screen: 'pingd.Onboarding',
+                    },
+                });
+                return;
+            }
+
+            case 'importing': {
+                Navigation.startSingleScreenApp({
+                    screen: {
+                        screen: 'pingd.OnboardingContacts',
+                    },
+                });
+                return;
+            }
+
+            default:
+                console.log('Error occurred');
         }
-
-        return processed;
-    }
-
-    componentWillMount() {
-        this.getContacts();
-    }
-
-    render() {
-        let contactList = null;
-        if (this.state.contacts.length > 0)
-            contactList = (
-                <FlatList
-                    contentContainerStyle={styles.contactList}
-                    data={this.addContactSeparators(this.state.contacts)}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={this.renderContactCard}
-                />
-            );
-
-        return (
-            <Provider store={store}>
-                <View style={styles.container}>
-                    <StatusBar barStyle="light-content"/>
-                    <AppBar/>
-                    { contactList }
-                </View>
-            </Provider>
-        );
     }
 }
-
-const styles = StyleSheet.create({
-    continueButtonWrapper: {
-        position: 'absolute',
-        zIndex: 12,
-        right: 20,
-        top: 52,
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-    },
-    continueButton: {
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 50,
-        height: 50,
-        backgroundColor: Theme.Blue,
-        borderRadius: 25,
-        borderWidth: 3,
-        borderColor: Theme.White,
-        shadowColor: Theme.Black,
-        shadowOpacity: 0.16,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
-    },
-    continueButtonImg: {
-        resizeMode: 'contain',
-        width: 36,
-        height: 36,
-    },
-    appBar: {
-        zIndex: 10,
-        shadowColor: Theme.DarkBlue,
-        shadowOpacity: 0.2,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
-    },
-    appBarMain: {
-        height: 80,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: Theme.Blue,
-    },
-    appBarHighlight: {
-        height: 4,
-        backgroundColor: Theme.DarkBlue,
-    },
-    appBarText: {
-        fontSize: 20,
-        fontWeight: '600',
-        color: Theme.White,
-        marginBottom: 18,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: Theme.White,
-    },
-    contactList: {
-        padding: 20,
-    },
-    contactSep: {
-        height: 24,
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    contactSepTextWrapper: {
-        position: 'absolute',
-        left: 20,
-        width: 22,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Theme.White,
-    },
-    contactSepText: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: Theme.DarkBlue,
-        textTransform: 'uppercase',
-    },
-    contactSepLine: {
-        borderBottomColor: `${Theme.DarkBlue}50`,
-        borderBottomWidth: 1,     
-    },
-});

@@ -5,12 +5,12 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import addContact from '../../api/redux/actions/addContact';
+import addContact from '../../../api/redux/actions/addContact';
 import {connect} from 'react-redux';
 
-import BucketSelector from './BucketSelector';
-import ContactInfo from './ContactInfo';
-import Theme from '../Theme';
+import BucketSelector from '../../ContactCard/BucketSelector';
+import ContactInfo from '../../ContactCard/ContactInfo';
+import Theme from '../../Theme';
 
 
 class ContactCard extends Component {
@@ -37,7 +37,8 @@ class ContactCard extends Component {
         }
 
         const contact = {
-            name: this.props.firstName + ' ' + this.props.lastName,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
             phone: this.props.phoneNumber,
         };
         this.props.addContact(contact, priority);
