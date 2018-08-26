@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 
 import BucketSelector from './BucketSelector';
 import ContactInfo from './ContactInfo';
+import Theme from '../Theme';
 
 
 class ContactCard extends Component {
@@ -19,6 +20,7 @@ class ContactCard extends Component {
         this.state = {
             flipped: false,
         };
+
         this._onClick = this._onClick.bind(this);
         this._setPriority = this._setPriority.bind(this);
     }
@@ -54,7 +56,10 @@ class ContactCard extends Component {
             );
 
         return (
-            <TouchableOpacity style={styles.container} onPress={this._onClick}>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={this._onClick}
+            >
                 {card}
             </TouchableOpacity>
         );
@@ -85,7 +90,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(ContactCard);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#bdc3c7',
+        height: 80,
         margin: 10,
+        backgroundColor: Theme.LightBlue,
+        shadowColor: Theme.DarkBlue,
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 6,
     },
 });

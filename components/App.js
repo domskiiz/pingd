@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Button,
     FlatList,
     StyleSheet,
     View,
@@ -17,6 +16,7 @@ const store = createStore(contacts, applyMiddleware(logger));
 import Contacts from 'react-native-contacts';
 import ContactCard from './ContactCard/ContactCard';
 // import detectFirstLaunch from '../utils/detectFirstLaunch';
+import Theme from './Theme';
 
 
 export default class App extends Component {
@@ -49,6 +49,10 @@ export default class App extends Component {
         )
     }
 
+    componentWillMount() {
+        this.getContacts();
+    }
+
     render() {
         let contactList = null;
         if (this.state.contacts.length > 0)
@@ -63,10 +67,6 @@ export default class App extends Component {
         return (
             <Provider store={store}>
                 <View style={styles.container}>
-                    <Button 
-                        title={'Get Contacts'}
-                        onPress={this.getContacts}
-                    />
                     { contactList }
                 </View>
             </Provider>
@@ -77,8 +77,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        padding: 20,
+        backgroundColor: Theme.White,
     },
 });

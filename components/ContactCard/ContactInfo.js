@@ -28,8 +28,6 @@ ContactInfo.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#bdc3c7',
-        margin: 10,
     },
 });
 
