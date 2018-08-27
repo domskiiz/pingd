@@ -4,10 +4,11 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import addContact from '../../api/redux/actions/addContact';
+import removeContact from '../../api/redux/actions/removeContact';
 import setContactPriority from '../../api/redux/actions/setContactPriority';
-import {connect} from 'react-redux';
 
 import BucketSelector from './BucketSelector';
 import ContactCard from '../generic/ContactCard';
@@ -35,12 +36,13 @@ class OnboardingContactCard extends Component {
     setPriority(priority) {
         // selecting the same priority removes the contact
         if (priority === this.state.priority) {
-            this.setState({priority: -1});
-            return;
-        }
-
+            this.props.removeContact(this.state.contact._id);
+            this.setState({
+                contact: {},
+                priority: -1,
+            });
         // selecting a new priority updates the contact
-        if (this.state.priority >= 0) {
+        } else if (this.state.priority >= 0) {
             let newContact = this.state.contact;
             newContact.priority = priority;
 
@@ -49,22 +51,21 @@ class OnboardingContactCard extends Component {
                 contact: newContact,
                 priority: priority,
             });
-            return;
+        } else {
+            const contact = {
+                _id: this.props.contactID,
+                firstName: this.props.firstName,
+                lastName: this.props.lastName,
+                phoneNumber: this.props.phoneNumber,
+                thumbnail: this.props.thumbnail,
+                priority: priority,
+            };
+            this.props.addContact(contact);
+            this.setState({
+                contact: contact,
+                priority: priority,
+            });
         }
-
-        const contact = {
-            _id: this.props.contactID,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            phoneNumber: this.props.phoneNumber,
-            thumbnail: this.props.thumbnail,
-            priority: priority,
-        };
-        this.props.addContact(contact);
-        this.setState({
-            contact: contact,
-            priority: priority,
-        });
     }
 
     // TODO: this might not even be needed, but the default phone numbers
@@ -164,6 +165,7 @@ OnboardingContactCard.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     // Redux actions
     addContact: PropTypes.func.isRequired,
+    removeContact: PropTypes.func.isRequired,
     setContactPriority: PropTypes.func.isRequired,
 };
 
@@ -186,6 +188,7 @@ const mapStateToProps = () => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addContact: (c) => dispatch(addContact(c)),
+        removeContact: (cid) => dispatch(removeContact(cid)),
         setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
     };
 };
