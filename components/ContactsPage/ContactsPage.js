@@ -78,9 +78,6 @@ class ContactsPage extends Component {
     }
 
     _renderContactCard(contact) {
-        console.log('ContactsPage._renderContactCard: contact.item:',
-            contact.item);
-
         if (contact.item.isSeparator)
             return <ContactSeparator letter={contact.item.letter}/>;
         let name = `${contact.item.firstName} ${contact.item.lastName}`;
@@ -116,7 +113,7 @@ class ContactsPage extends Component {
 
         return (
             <View style={styles.container}>
-                <AppBar height={64}>
+                <AppBar height={72}>
                     <Text style={styles.title}>Contacts</Text>
                 </AppBar>
                 <FlatList
@@ -154,7 +151,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         color: Theme.White,
-        marginTop: 18,
+        marginTop: 24,
     },
 });
 

@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 
 import addContact from '../../api/redux/actions/addContact';
+import setContactPriority from '../../api/redux/actions/setContactPriority';
 import {connect} from 'react-redux';
 
 import BucketSelector from './BucketSelector';
@@ -18,6 +19,7 @@ class OnboardingContactCard extends Component {
         super(props);
 
         this.state = {
+            contact: {},
             flipped: false,
             priority: -1,
         };
@@ -31,12 +33,27 @@ class OnboardingContactCard extends Component {
     }
 
     setPriority(priority) {
-        if (priority == this.state.priority) {
+        // selecting the same priority removes the contact
+        if (priority === this.state.priority) {
             this.setState({priority: -1});
             return;
         }
 
+        // selecting a new priority updates the contact
+        if (this.state.priority >= 0) {
+            let newContact = this.state.contact;
+            newContact.priority = priority;
+
+            this.props.setContactPriority(this.state.contact._id, priority);
+            this.setState({
+                contact: newContact,
+                priority: priority,
+            });
+            return;
+        }
+
         const contact = {
+            _id: this.props.contactID,
             firstName: this.props.firstName,
             lastName: this.props.lastName,
             phoneNumber: this.props.phoneNumber,
@@ -44,7 +61,10 @@ class OnboardingContactCard extends Component {
             priority: priority,
         };
         this.props.addContact(contact);
-        this.setState({priority: priority});
+        this.setState({
+            contact: contact,
+            priority: priority,
+        });
     }
 
     // TODO: this might not even be needed, but the default phone numbers
@@ -137,11 +157,14 @@ class OnboardingContactCard extends Component {
 }
 
 OnboardingContactCard.propTypes = {
+    contactID: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
+    // Redux actions
     addContact: PropTypes.func.isRequired,
+    setContactPriority: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -162,7 +185,8 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addContact: (c, p) => dispatch(addContact(c, p)),
+        addContact: (c) => dispatch(addContact(c)),
+        setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
     };
 };
 

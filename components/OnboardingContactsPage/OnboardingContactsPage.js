@@ -118,6 +118,7 @@ class OnboardingContactsPage extends Component {
 
         return (
             <OnboardingContactCard
+                contactID={contact.item.recordID}
                 firstName={contact.item.givenName}
                 lastName={contact.item.familyName}
                 phoneNumber={contact.item.phoneNumbers[0].number}

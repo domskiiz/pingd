@@ -1,5 +1,7 @@
-import {ADD_CONTACT} from '../actions/addContact';
 const _ = require('lodash');
+
+import {ADD_CONTACT} from '../actions/addContact';
+import {SET_CONTACT_PRIORITY} from '../actions/setContactPriority';
 
 const initialState = [];
 
@@ -42,6 +44,21 @@ export default function contacts(contactsState = initialState, action) {
             const newState = _.cloneDeep(contactsState);
             const {payload} = action;
             newState.push(payload);
+
+            return newState;
+        }
+
+        case SET_CONTACT_PRIORITY: {
+            const newState = _.cloneDeep(contactsState);
+            const {payload} = action;
+            const {contactID, priority} = payload;
+
+            for (let i = 0; i < newState.length; i++) {
+                let contact = newState[i];
+                if (contact._id === contactID) {
+                    newState[i]['priority'] = priority;
+                }
+            }
 
             return newState;
         }
