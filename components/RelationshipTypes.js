@@ -11,20 +11,34 @@ const Types = {
     Touchpoint: 2,
 };
 
-function getBorderColor(type) {
+function getColor(type) {
     if (type === Types.Friend) return Theme.Green;
     else if (type === Types.Acquaintance) return Theme.Blue;
     else if (type === Types.Touchpoint) return Theme.Purple;
 }
 
-function getImageBorderColor(type) {
+function getColorFaded(type) {
+    if (type === Types.Friend) return Theme.FadedGreen;
+    else if (type === Types.Acquaintance) return Theme.FadedBlue;
+    else if (type === Types.Touchpoint) return Theme.FadedPurple;
+}
+
+function getColorImage(type) {
     if (type === Types.Friend) return Theme.Green;
     else if (type === Types.Acquaintance) return Theme.DarkBlue;
     else if (type === Types.Touchpoint) return Theme.Purple;
 }
 
+function getText(type) {
+    if (type === Types.Friend) return 'Friend';
+    else if (type === Types.Acquaintance) return 'Acquaintance';
+    else if (type === Types.Touchpoint) return 'Touchpoint';
+}
+
 export {
     Types,
-    getBorderColor,
-    getImageBorderColor,
+    getColor,
+    getColorFaded,
+    getColorImage,
+    getText,
 };

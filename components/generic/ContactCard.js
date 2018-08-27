@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 import Theme from '../Theme';
-import {getBorderColor} from '../RelationshipTypes';
+import {getColor} from '../RelationshipTypes';
 
 
 function getImageBorder(priority) {
     return {
-        borderColor: getBorderColor(priority),
+        borderColor: getColor(priority),
         borderWidth: 3,
     };
 }

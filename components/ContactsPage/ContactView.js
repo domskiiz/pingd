@@ -11,7 +11,12 @@ import PropTypes from 'prop-types';
 
 import Card from '../generic/Card';
 import Theme from '../Theme';
-import {getImageBorderColor, Types} from '../RelationshipTypes';
+import {
+    getColorFaded,
+    getColorImage,
+    getText,
+    Types,
+} from '../RelationshipTypes';
 
 
 const CloseButton = (props) => (
@@ -28,23 +33,13 @@ CloseButton.propTypes = {
 };
 
 
-const RelationshipCombo = (props) => (
-    <Picker style={styles.combo} selectedValue={props.priority}>
-        <Picker.Item label={'Friend'} value={Types.Friend}/>
-        <Picker.Item label={'Acquaintance'} value={Types.Acquaintance}/>
-        <Picker.Item label={'Touchpoint'} value={Types.Touchpoint}/>
-    </Picker>
-);
-
-RelationshipCombo.propTypes = {
-    priority: PropTypes.number.isRequired,
-};
-
-
 const TopSection = (props) => {
-    let name = `${props.firstName} ${props.lastName}`;
     let highlightStyle = {
-        backgroundColor: getImageBorderColor(props.priority),
+        backgroundColor: getColorImage(props.priority),
+    };
+
+    let relationshipStyle = {
+        backgroundColor: getColorFaded(props.priority),
     };
 
     let contactImg = {uri: props.image};
@@ -60,12 +55,14 @@ const TopSection = (props) => {
                     source={contactImg}
                 />
                 <View style={styles.textWrapper}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Card style={styles.relationship}>
-                        <Text style={styles.relationshipText}>
-                            Friend
-                        </Text>
-                    </Card>
+                    <Text style={styles.name}>{props.name}</Text>
+                    <TouchableOpacity onPress={props.picker}>
+                        <Card style={[styles.relationship, relationshipStyle]}>
+                            <Text style={styles.relationshipText}>
+                                {getText(props.priority)}
+                            </Text>
+                        </Card>
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={[styles.topHighlight, highlightStyle]}/>
@@ -75,28 +72,84 @@ const TopSection = (props) => {
 
 TopSection.propTypes = {
     image: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    picker: PropTypes.func.isRequired,
     priority: PropTypes.number.isRequired,
     reset: PropTypes.func.isRequired,
+};
+
+
+const RelationshipCombo = (props) => (
+    <Picker
+        style={[styles.combo, props.style]}
+        selectedValue={props.selected}
+        onValueChange={(value) => props.selector(value)}
+    >
+        <Picker.Item label={'Friend'} value={Types.Friend}/>
+        <Picker.Item label={'Acquaintance'} value={Types.Acquaintance}/>
+        <Picker.Item label={'Touchpoint'} value={Types.Touchpoint}/>
+    </Picker>
+);
+
+RelationshipCombo.propTypes = {
+    selector: PropTypes.func.isRequired,
+    selected: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+    style: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 };
 
 
 export default class ContactView extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            picker: false,
+            selected: this.props.contact.priority,
+        };
+
+        this._togglePicker = this._togglePicker.bind(this);
+        this._updateSelection = this._updateSelection.bind(this);
+    }
+
+    _togglePicker() {
+        this.setState({picker: !this.state.picker});
+    }
+
+    _updateSelection(value) {
+        this.setState({selected: value});
+        this._togglePicker();
     }
 
     render() {
+        let contact = this.props.contact;
+        let name = `${contact.firstName} ${contact.lastName}`;
+
+        let picker = null;
+        if (this.state.picker) {
+            picker = (
+                <RelationshipCombo
+                    selector={this._updateSelection}
+                    selected={this.state.selected}
+                    style={styles.picker}
+                    priority={contact.priority}
+                />
+            );
+        }
+
         return (
             <View style={styles.container}>
                 <TopSection
-                    image={this.props.contact.thumbnail}
-                    firstName={this.props.contact.firstName}
-                    lastName={this.props.contact.lastName}
-                    priority={this.props.contact.priority}
+                    image={contact.thumbnail}
+                    name={name}
+                    picker={this._togglePicker}
+                    priority={contact.priority}
                     reset={this.props.reset}
                 />
+                {picker}
             </View>
         );
     }
@@ -169,7 +222,6 @@ const styles = StyleSheet.create({
     },
     relationship: {
         marginTop: 8,
-        backgroundColor: Theme.FadedGreen,
         paddingTop: 6,
         paddingBottom: 6,
         paddingLeft: 16,
@@ -180,5 +232,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         opacity: 0.9,
+    },
+    picker: {
+        backgroundColor: Theme.LightBlue,
+        borderBottomWidth: 2,
+        borderBottomColor: Theme.DarkBlue,
     },
 });
