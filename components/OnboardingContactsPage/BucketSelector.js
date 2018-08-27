@@ -9,11 +9,7 @@ import PropTypes from 'prop-types';
 
 import Card from '../generic/Card';
 import Theme from '../Theme';
-
-
-const FRIEND       = 0;
-const ACQUAINTANCE = 1;
-const TOUCHPOINT   = 2;
+import {Types} from '../RelationshipTypes';
 
 
 const Selector = (props) => {
@@ -66,16 +62,16 @@ class BucketSelector extends Component {
         return (
             <Card style={[styles.container, this.props.style]}>
                 <Selector friend
-                    selected={priority < 0 || priority === FRIEND}
-                    setPriority={() => this.select(FRIEND)}
+                    selected={priority < 0 || priority === Types.Friend}
+                    setPriority={() => this.select(Types.Friend)}
                 />
                 <Selector acquaintance
-                    selected={priority < 0 || priority === ACQUAINTANCE}
-                    setPriority={() => this.select(ACQUAINTANCE)}
+                    selected={priority < 0 || priority === Types.Acquaintance}
+                    setPriority={() => this.select(Types.Acquaintance)}
                 />
                 <Selector touchpoint
-                    selected={priority < 0 || priority === TOUCHPOINT}
-                    setPriority={() => this.select(TOUCHPOINT)}
+                    selected={priority < 0 || priority === Types.Touchpoint}
+                    setPriority={() => this.select(Types.Touchpoint)}
                 />
             </Card>
         );

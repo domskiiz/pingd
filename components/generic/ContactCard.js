@@ -9,27 +9,14 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 import Theme from '../Theme';
+import {getBorderColor} from '../RelationshipTypes';
 
-
-const FRIEND       = 0;
-const ACQUAINTANCE = 1;
-const TOUCHPOINT   = 2;
 
 function getImageBorder(priority) {
-    let style = {
-        borderColor: '',
+    return {
+        borderColor: getBorderColor(priority),
         borderWidth: 3,
     };
-
-    if (priority === FRIEND) {
-        style.borderColor = Theme.Green;
-    } else if (priority === ACQUAINTANCE) {
-        style.borderColor = Theme.Blue;
-    } else if (priority === TOUCHPOINT) {
-        style.borderColor = Theme.Purple;
-    }
-
-    return style;
 }
 
 

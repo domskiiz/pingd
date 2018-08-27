@@ -7,26 +7,13 @@ import {
 import PropTypes from 'prop-types';
 
 import Theme from '../Theme';
+import {getImageBorderColor} from '../RelationshipTypes';
 
-
-const FRIEND       = 0;
-const ACQUAINTANCE = 1;
-const TOUCHPOINT   = 2;
 
 const TopSection = (props) => {
-    let highlightStyle = {backgroundColor: ''};
-    let imageStyle = {borderColor: ''};
-
-    if (props.priority === FRIEND) {
-        highlightStyle.backgroundColor = Theme.Green;
-        imageStyle.borderColor = Theme.Green;
-    } else if (props.priority === ACQUAINTANCE) {
-        highlightStyle.backgroundColor = Theme.DarkBlue;
-        imageStyle.borderColor = Theme.DarkBlue;
-    } else if (props.priority === TOUCHPOINT) {
-        highlightStyle.backgroundColor = Theme.Purple;
-        imageStyle.borderColor = Theme.Purple;
-    }
+    let highlightStyle = {
+        backgroundColor: getImageBorderColor(props.priority),
+    };
 
     let contactImg = {uri: props.image};
     if (!props.image)
