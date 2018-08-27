@@ -17,7 +17,7 @@ export default class App extends Component {
         super(props);
 
         // NOTE: uncomment following line to purge state of app and run app once
-        storage.persistor.purge();
+        // storage.persistor.purge();
         storage.store.subscribe(this.onStoreUpdate.bind(this));
         storage.store.dispatch(appActions.appInitialized());
     }

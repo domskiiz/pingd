@@ -116,7 +116,7 @@ class ContactsPage extends Component {
 
         return (
             <View style={styles.container}>
-                <AppBar>
+                <AppBar height={64}>
                     <Text style={styles.title}>Contacts</Text>
                 </AppBar>
                 <FlatList
@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
         height: 80,
     },
     title: {
-        fontSize: 24,
-        fontWeight: '600',
+        fontSize: 20,
+        fontWeight: '500',
         color: Theme.White,
         marginTop: 18,
     },
