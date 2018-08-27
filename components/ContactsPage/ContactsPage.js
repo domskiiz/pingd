@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import AppBar from '../generic/AppBar';
 import ContactCard from '../generic/ContactCard';
 import ContactSeparator from '../generic/ContactSeparator';
+import ContactView from './ContactView';
 import Theme from '../Theme';
 
 
@@ -42,7 +43,12 @@ class ContactsPage extends Component {
             animated: false,
         });
 
+        this.state = {
+            viewing: null,
+        };
+
         this._renderContactCard = this._renderContactCard.bind(this);
+        this._resetContact = this._resetContact.bind(this);
     }
 
     _addContactSeparators(contacts) {
@@ -63,13 +69,27 @@ class ContactsPage extends Component {
         return processed;
     }
 
+    _showContact(contact) {
+        this.setState({viewing: contact});
+    }
+
+    _resetContact() {
+        this.setState({viewing: null});
+    }
+
     _renderContactCard(contact) {
+        console.log('ContactsPage._renderContactCard: contact.item:',
+            contact.item);
+
         if (contact.item.isSeparator)
             return <ContactSeparator letter={contact.item.letter}/>;
         let name = `${contact.item.firstName} ${contact.item.lastName}`;
 
         return (
-            <TouchableOpacity style={styles.cardContainer}>
+            <TouchableOpacity
+                style={styles.cardContainer}
+                onPress={this._showContact.bind(this, contact.item)}
+            >
                 <ContactCard
                     style={[styles.card]}
                     name={name}
@@ -82,6 +102,15 @@ class ContactsPage extends Component {
     }
 
     render() {
+        if (this.state.viewing !== null) {
+            return (
+                <ContactView
+                    contact={this.state.viewing}
+                    reset={this._resetContact}
+                />
+            );
+        }
+
         let contacts = this.props.contacts ? this.props.contacts : [];
         contacts.sort(compareContacts);
 

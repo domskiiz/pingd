@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         height: 58,
         borderRadius: 29,
         margin: 20,
-        backgroundColor: `${Theme.Blue}80`,
+        backgroundColor: Theme.FadedBlueContact,
     },
     info: {
         justifyContent: 'center',
