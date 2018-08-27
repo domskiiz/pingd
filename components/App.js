@@ -17,7 +17,7 @@ export default class App extends Component {
         super(props);
 
         // NOTE: uncomment following line to purge state of app and run app once
-        storage.persistor.purge();
+        // storage.persistor.purge();
         storage.store.subscribe(this.onStoreUpdate.bind(this));
         storage.store.dispatch(appActions.appInitialized());
     }
@@ -38,17 +38,20 @@ export default class App extends Component {
                         label: 'Contacts',
                         screen: 'pingd.Contacts',
                         icon: require('../assets/contacts_unselected.png'),
-                        selectedIcon: require('../assets/contacts_selected.png'),
+                        selectedIcon:
+                            require('../assets/contacts_selected.png'),
                     }, {
                         label: 'Ping List',
                         screen: 'pingd.PingList',
                         icon: require('../assets/ping_list_unselected.png'),
-                        selectedIcon: require('../assets/ping_list_selected.png'),
+                        selectedIcon:
+                            require('../assets/ping_list_selected.png'),
                     }, {
                         label: 'Calendar',
                         screen: 'pingd.Calendar',
                         icon: require('../assets/calendar_unselected.png'),
-                        selectedIcon: require('../assets/calendar_selected.png'),
+                        selectedIcon:
+                            require('../assets/calendar_selected.png'),
                     }],
                 });
                 return;
