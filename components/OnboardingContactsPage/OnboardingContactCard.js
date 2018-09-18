@@ -21,16 +21,16 @@ class OnboardingContactCard extends Component {
 
         this.state = {
             contact: {},
-            flipped: false,
+            expanded: false,
             priority: -1,
         };
 
-        this.flip = this.flip.bind(this);
+        this.expand = this.expand.bind(this);
         this.setPriority = this.setPriority.bind(this);
     }
 
-    flip() {
-        this.setState({flipped: !this.state.flipped});
+    expand() {
+        this.setState({expanded: !this.state.expanded});
     }
 
     setPriority(priority) {
@@ -124,34 +124,31 @@ class OnboardingContactCard extends Component {
         let name = `${this.props.firstName} ${this.props.lastName}`;
         let phoneNumber = this.props.phoneNumber;  // TODO: format?
 
-        let card = null;
         let cardStyle = [styles.card];
-        if (this.state.flipped) {
-            card = (
+        if (this.state.priority >= 0)
+            cardStyle.push(this._getBorderStyle());
+
+        let selector = null;
+        if (this.state.expanded)
+            selector = (
                 <BucketSelector
                     style={cardStyle}
                     priority={this.state.priority}
-                    flip={this.flip}
+                    expand={this.expand}
                     setPriority={this.setPriority}
                 />
             );
-        } else {
-            if (this.state.priority >= 0)
-                cardStyle.push(this._getBorderStyle());
 
-            card = (
+        return (
+            <TouchableOpacity style={styles.container} onPress={this.expand}>
                 <ContactCard
                     style={cardStyle}
                     name={name}
                     phoneNumber={phoneNumber}
                     thumbnail={this.props.thumbnail}
-                />
-            );
-        }
-
-        return (
-            <TouchableOpacity style={styles.container} onPress={this.flip}>
-                {card}
+                >
+                    {selector}
+                </ContactCard>
             </TouchableOpacity>
         );
     }
@@ -176,7 +173,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     card: {
-        height: 80,
+        margin: 0,
+        padding: 0,
     },
 });
 
