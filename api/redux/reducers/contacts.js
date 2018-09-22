@@ -55,9 +55,8 @@ export default function contacts(contactsState = initialState, action) {
             const {contactID, priority} = payload;
 
             for (let i = 0; i < newState.length; i++) {
-                let contact = newState[i];
-                if (contact._id === contactID)
-                    newState[i]['priority'] = priority;
+                if (newState[i].contact._id === contactID)
+                    newState[i].contact.priority = priority;
             }
 
             return newState;
