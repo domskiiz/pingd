@@ -11,6 +11,12 @@ const Types = {
     Touchpoint: 2,
 };
 
+const ContactFreqs = {
+    0: 14, // days (2 weeks)
+    1: 30, // days (1 month)
+    2: 60, // days (2 months)
+};
+
 function getColor(type) {
     if (type === Types.Friend) return Theme.Green;
     else if (type === Types.Acquaintance) return Theme.Blue;
@@ -37,6 +43,7 @@ function getText(type) {
 
 export {
     Types,
+    ContactFreqs,
     getColor,
     getColorFaded,
     getColorImage,

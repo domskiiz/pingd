@@ -66,15 +66,13 @@ export default function contacts(contactsState = initialState, action) {
             const newState = _.cloneDeep(contactsState);
             const {payload} = action;
             const {contactID} = payload;
-            console.log('contact ID:', contactID);
 
             let finalState = [];
             for (let i = 0; i < newState.length; i++) {
                 let contact = newState[i].contact;
-                console.log('contact', i, ':', contact);
                 if (contact._id !== contactID) {
                     finalState.push(newState[i]);
-                } else console.log('match!');
+                }
             }
 
             return finalState;

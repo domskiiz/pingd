@@ -12,6 +12,7 @@ import setContactPriority from '../../api/redux/actions/setContactPriority';
 
 import BucketSelector from './BucketSelector';
 import ContactCard from '../generic/ContactCard';
+import {ContactFreqs} from '../RelationshipTypes';
 import Theme from '../Theme';
 
 
@@ -31,6 +32,18 @@ class OnboardingContactCard extends Component {
 
     expand() {
         this.setState({expanded: !this.state.expanded});
+    }
+
+    _getInitialContactTime(priority) {
+        let freq = ContactFreqs[priority];
+        let start = Math.floor(freq / 2);
+
+        let rand = Math.floor(Math.random() * freq) - start;
+        let days = start + rand + 1;
+
+        let today = Math.round(new Date().getTime());
+        let toc = today + (days * 24 * 60 * 60 * 1000);
+        return new Date(toc);
     }
 
     setPriority(priority) {
@@ -59,39 +72,15 @@ class OnboardingContactCard extends Component {
                 phoneNumber: this.props.phoneNumber,
                 thumbnail: this.props.thumbnail,
                 priority: priority,
+                nextContact: this._getInitialContactTime(priority),
             };
+
             this.props.addContact(contact);
+
             this.setState({
                 contact: contact,
                 priority: priority,
             });
-        }
-    }
-
-    // TODO: this might not even be needed, but the default phone numbers
-    // TODO: returned by react-native-contacts are in a weird-ass format
-    formatPhoneNumber(phoneNumber) {
-        let digits = '';
-        for (let i = 0; i < phoneNumber.length; i++) {
-            let ch = phoneNumber[i];
-            if (ch >= '0' && ch <= '9')
-                digits += ch;
-        }
-
-        // TODO: this is janky, won't work for longer country codes
-        if (digits.length === 11) {
-            let countryCode = digits[0];
-            let areaCode = digits.slice(1, 4);
-            let number = `${digits.slice(4, 7)}-${digits.slice(7, 11)}`;
-            return `+${countryCode} (${areaCode}) ${number}`;
-        } else if (digits.length === 10) {
-            let areaCode = digits.slice(0, 3);
-            let number = `${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
-            return `(${areaCode}) ${number}`;
-        } else if (digits.length === 7) {
-            return `${digits.slice(0, 3)}-${digits.slice(3, 7)}`;
-        } else {
-            return digits;
         }
     }
 
@@ -179,17 +168,12 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = () => {
-    return { };
-};
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addContact: (c) => dispatch(addContact(c)),
-        removeContact: (cid) => dispatch(removeContact(cid)),
-        setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    addContact: (c) => dispatch(addContact(c)),
+    removeContact: (cid) => dispatch(removeContact(cid)),
+    setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
+});
 
-export default connect(
-    mapStateToProps, mapDispatchToProps)(OnboardingContactCard);
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardingContactCard);
