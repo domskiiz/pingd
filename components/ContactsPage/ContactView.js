@@ -16,6 +16,44 @@ import {Types} from '../RelationshipTypes';
 import setContactPriority from '../../api/redux/actions/setContactPriority';
 
 
+const Picker = (props) => (
+    <Card style={styles.picker}>
+        <Text style={styles.pickerTitle}>Change relationship?</Text>
+        <TouchableOpacity
+            onPress={() => props.updatePriority(Types.Friend)}
+        >
+            <View style={[styles.pickerSelect, styles.pickerFriend]}>
+                <Text style={styles.pickerText}>Friend</Text>
+            </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => props.updatePriority(Types.Acquaintance)}
+        >
+            <View style={[styles.pickerSelect, styles.pickerAcq]}>
+                <Text style={styles.pickerText}>Acquaintance</Text>
+            </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => props.updatePriority(Types.Touchpoint)}
+        >
+            <View style={[styles.pickerSelect, styles.pickerTpoint]}>
+                <Text style={styles.pickerText}>Touchpoint</Text>
+            </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={props.toggle}>
+            <View style={[styles.pickerSelect, styles.pickerCancel]}>
+                <Text style={styles.pickerText}>Cancel</Text>
+            </View>
+        </TouchableOpacity>
+    </Card>
+);
+
+Picker.propTypes = {
+    toggle: PropTypes.func.isRequired,
+    updatePriority: PropTypes.func.isRequired,
+};
+
+
 class ContactView extends Component {
     constructor(props) {
         super(props);
@@ -26,16 +64,11 @@ class ContactView extends Component {
         };
 
         this._togglePicker = this._togglePicker.bind(this);
-        this._updateSelection = this._updateSelection.bind(this);
+        this._setContactPriority = this._setContactPriority.bind(this);
     }
 
     _togglePicker() {
         this.setState({picker: !this.state.picker});
-    }
-
-    _updateSelection(value) {
-        this.setState({selected: value});
-        this._togglePicker();
     }
 
     _setContactPriority(priority) {
@@ -47,40 +80,12 @@ class ContactView extends Component {
         let contact = this.props.contact;
         let name = `${contact.firstName} ${contact.lastName}`;
 
-        let picker = null;
-        if (this.state.picker) {
-            picker = (
-                <Card style={styles.picker}>
-                    <Text style={styles.pickerTitle}>Change relationship?</Text>
-                    <TouchableOpacity
-                        onPress={() => this._setContactPriority(Types.Friend)}
-                    >
-                        <View style={[styles.pickerSelect, styles.pickerFriend]}>
-                            <Text style={styles.pickerText}>Friend</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this._setContactPriority(Types.Acquaintance)}
-                    >
-                        <View style={[styles.pickerSelect, styles.pickerAcq]}>
-                            <Text style={styles.pickerText}>Acquaintance</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this._setContactPriority(Types.Touchpoint)}
-                    >
-                        <View style={[styles.pickerSelect, styles.pickerTpoint]}>
-                            <Text style={styles.pickerText}>Touchpoint</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._togglePicker}>
-                        <View style={[styles.pickerSelect, styles.pickerCancel]}>
-                            <Text style={styles.pickerText}>Cancel</Text>
-                        </View>
-                    </TouchableOpacity>
-                </Card>
-            );
-        }
+        let picker = (
+            <Picker
+                toggle={this._togglePicker}
+                updatePriority={this._setContactPriority}
+            />
+        );
 
         return (
             <View style={styles.container}>
@@ -91,7 +96,16 @@ class ContactView extends Component {
                     priority={contact.priority}
                     reset={this.props.reset}
                 />
-                {picker}
+                {this.state.picker ? picker : null}
+                <View style={styles.textContainer}>
+                    <Text style={styles.contactText}>
+                        {'I will contact ' + contact.firstName + ' every 2 weeks'}
+                    </Text>
+                    <Text style={styles.lastPOC}>
+                        Last point of contact:
+                    </Text>
+                    <View style={styles.inset}/>
+                </View>
             </View>
         );
     }
@@ -105,10 +119,19 @@ ContactView.propTypes = {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        zIndex: 20,
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+    },
     picker: {
+        position: 'absolute',
+        zIndex: 21,
         width: '70%',
-        position: 'relative',
-        top: 40,
+        top: 200,
         left: '15%',
         borderRadius: 3,
     },
@@ -148,6 +171,24 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: Theme.White,
         margin: 0,
+    },
+    textContainer: {
+        flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: Theme.White,
+    },
+    contactText: {
+        fontSize: 16,
+    },
+    lastPOC: {
+        fontSize: 14,
+    },
+    inset: {
+        width: 80,
+        height: 40,
+        backgroundColor: Theme.FadedBlue,
     },
 });
 

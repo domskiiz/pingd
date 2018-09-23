@@ -70,7 +70,7 @@ class ContactsPage extends Component {
     }
 
     _showContact(contact) {
-        this.setState({viewing: contact});
+        this.setState({viewing: contact._id});
     }
 
     _resetContact() {
@@ -99,20 +99,18 @@ class ContactsPage extends Component {
     }
 
     render() {
-        if (this.state.viewing !== null) {
-            return (
-                <ContactView
-                    contact={this.state.viewing}
-                    reset={this._resetContact}
-                />
-            );
-        }
-
         let contacts = this.props.contacts ? this.props.contacts : [];
         contacts.sort(compareContacts);
 
+        let contact = null;
+        if (this.state.viewing !== null) {
+            let shown = contacts.find(c => c.contact._id === this.state.viewing);
+            contact = <ContactView contact={shown.contact} reset={this._resetContact}/>;
+        }
+
         return (
             <View style={styles.container}>
+                {contact}
                 <AppBar height={72}>
                     <Text style={styles.title}>Contacts</Text>
                 </AppBar>
