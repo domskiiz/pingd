@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+    Picker,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -16,7 +17,7 @@ import {Types} from '../RelationshipTypes';
 import setContactPriority from '../../api/redux/actions/setContactPriority';
 
 
-const Picker = (props) => (
+const PriorityPicker = (props) => (
     <Card style={styles.picker}>
         <Text style={styles.pickerTitle}>Change relationship?</Text>
         <TouchableOpacity
@@ -48,10 +49,22 @@ const Picker = (props) => (
     </Card>
 );
 
-Picker.propTypes = {
+PriorityPicker.propTypes = {
     toggle: PropTypes.func.isRequired,
     updatePriority: PropTypes.func.isRequired,
 };
+
+
+const POCPicker = () => (
+    <Picker
+        selectedValue=''
+        style={styles.pocPicker}
+        onValueChange={null}
+    >
+        <Picker.Item label="Java" value="java"/>
+        <Picker.Item label="JavaScript" value="js"/>
+    </Picker>
+);
 
 
 class ContactView extends Component {
@@ -59,16 +72,22 @@ class ContactView extends Component {
         super(props);
 
         this.state = {
-            picker: false,
+            priorityPicker: false,
             selected: this.props.contact.priority,
+            pocPicker: false,
         };
 
-        this._togglePicker = this._togglePicker.bind(this);
         this._setContactPriority = this._setContactPriority.bind(this);
+        this._togglePOCPicker = this._togglePOCPicker.bind(this);
+        this._togglePriorityPicker = this._togglePriorityPicker.bind(this);
     }
 
-    _togglePicker() {
-        this.setState({picker: !this.state.picker});
+    _togglePriorityPicker() {
+        this.setState({priorityPicker: !this.state.priorityPicker});
+    }
+
+    _togglePOCPicker() {
+        this.setState({pocPicker: !this.state.pocPicker});
     }
 
     _setContactPriority(priority) {
@@ -80,9 +99,9 @@ class ContactView extends Component {
         let contact = this.props.contact;
         let name = `${contact.firstName} ${contact.lastName}`;
 
-        let picker = (
-            <Picker
-                toggle={this._togglePicker}
+        let priorityPicker = (
+            <PriorityPicker
+                toggle={this._togglePriorityPicker}
                 updatePriority={this._setContactPriority}
             />
         );
@@ -92,19 +111,19 @@ class ContactView extends Component {
                 <ContactViewTop
                     image={contact.thumbnail}
                     name={name}
-                    picker={this._togglePicker}
+                    picker={this._togglePriorityPicker}
                     priority={contact.priority}
                     reset={this.props.reset}
                 />
-                {this.state.picker ? picker : null}
+                {this.state.priorityPicker ? priorityPicker : null}
                 <View style={styles.textContainer}>
+                    <TouchableOpacity onPress={this._togglePOCPicker}>
+                        <View style={styles.inset}/>
+                    </TouchableOpacity>
+                    {this.state.pocPicker ? <POCPicker/> : null}
                     <Text style={styles.contactText}>
                         {'I will contact ' + contact.firstName + ' every 2 weeks'}
                     </Text>
-                    <Text style={styles.lastPOC}>
-                        Last point of contact:
-                    </Text>
-                    <View style={styles.inset}/>
                 </View>
             </View>
         );
@@ -190,16 +209,20 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: Theme.FadedBlue,
     },
+    pocPicker: {
+        width: '100%',
+        maxHeight: '80%',
+        borderTopWidth: 1,
+        borderTopColor: Theme.Blue,
+        borderBottomWidth: 1,
+        borderBottomColor: Theme.Blue,
+    },
 });
 
-const mapStateToProps = () => {
-    return {};
-};
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactView);
