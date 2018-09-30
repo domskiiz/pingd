@@ -1,70 +1,16 @@
 import React, {Component} from 'react';
 import {
-    Picker,
     StyleSheet,
-    Text,
-    TouchableOpacity,
     View,
 } from 'react-native';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Card from '../generic/Card';
 import ContactViewTop from './ContactViewTop';
+import PriorityPicker from './PriorityPicker';
 import Theme from '../Theme';
-import {Types} from '../RelationshipTypes';
 
 import setContactPriority from '../../api/redux/actions/setContactPriority';
-
-
-const PriorityPicker = (props) => (
-    <Card style={styles.picker}>
-        <Text style={styles.pickerTitle}>Change relationship?</Text>
-        <TouchableOpacity
-            onPress={() => props.updatePriority(Types.Friend)}
-        >
-            <View style={[styles.pickerSelect, styles.pickerFriend]}>
-                <Text style={styles.pickerText}>Friend</Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={() => props.updatePriority(Types.Acquaintance)}
-        >
-            <View style={[styles.pickerSelect, styles.pickerAcq]}>
-                <Text style={styles.pickerText}>Acquaintance</Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={() => props.updatePriority(Types.Touchpoint)}
-        >
-            <View style={[styles.pickerSelect, styles.pickerTpoint]}>
-                <Text style={styles.pickerText}>Touchpoint</Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={props.toggle}>
-            <View style={[styles.pickerSelect, styles.pickerCancel]}>
-                <Text style={styles.pickerText}>Cancel</Text>
-            </View>
-        </TouchableOpacity>
-    </Card>
-);
-
-PriorityPicker.propTypes = {
-    toggle: PropTypes.func.isRequired,
-    updatePriority: PropTypes.func.isRequired,
-};
-
-
-const POCPicker = () => (
-    <Picker
-        selectedValue=''
-        style={styles.pocPicker}
-        onValueChange={null}
-    >
-        <Picker.Item label="Java" value="java"/>
-        <Picker.Item label="JavaScript" value="js"/>
-    </Picker>
-);
 
 
 class ContactView extends Component {
@@ -73,21 +19,14 @@ class ContactView extends Component {
 
         this.state = {
             priorityPicker: false,
-            selected: this.props.contact.priority,
-            pocPicker: false,
         };
 
         this._setContactPriority = this._setContactPriority.bind(this);
-        this._togglePOCPicker = this._togglePOCPicker.bind(this);
         this._togglePriorityPicker = this._togglePriorityPicker.bind(this);
     }
 
     _togglePriorityPicker() {
         this.setState({priorityPicker: !this.state.priorityPicker});
-    }
-
-    _togglePOCPicker() {
-        this.setState({pocPicker: !this.state.pocPicker});
     }
 
     _setContactPriority(priority) {
@@ -108,6 +47,7 @@ class ContactView extends Component {
 
         return (
             <View style={styles.container}>
+                {this.state.priorityPicker ? priorityPicker : null}
                 <ContactViewTop
                     image={contact.thumbnail}
                     name={name}
@@ -115,15 +55,10 @@ class ContactView extends Component {
                     priority={contact.priority}
                     reset={this.props.reset}
                 />
-                {this.state.priorityPicker ? priorityPicker : null}
-                <View style={styles.textContainer}>
-                    <TouchableOpacity onPress={this._togglePOCPicker}>
-                        <View style={styles.inset}/>
-                    </TouchableOpacity>
-                    {this.state.pocPicker ? <POCPicker/> : null}
-                    <Text style={styles.contactText}>
-                        {'I will contact ' + contact.firstName + ' every 2 weeks'}
-                    </Text>
+                <View style={styles.lowerContainer}>
+                    <View style={styles.optionsContainer}>
+
+                    </View>
                 </View>
             </View>
         );
@@ -146,76 +81,19 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    picker: {
-        position: 'absolute',
-        zIndex: 21,
-        width: '70%',
-        top: 200,
-        left: '15%',
-        borderRadius: 3,
-    },
-    pickerTitle: {
-        fontSize: 20,
-        fontWeight: '500',
+    lowerContainer: {
         width: '100%',
-        textAlign: 'center',
-        margin: 0,
-        paddingTop: 20,
-        paddingBottom: 20,
-        color: Theme.DarkBlue,
-    },
-    pickerSelect: {
-        width: '100%',
-        margin: 0,
-        paddingTop: 20,
-        paddingBottom: 20,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    pickerFriend: {
-        backgroundColor: Theme.Green,
-    },
-    pickerAcq: {
-        backgroundColor: Theme.Blue,
-    },
-    pickerTpoint: {
-        backgroundColor: Theme.Purple,
-    },
-    pickerCancel: {
-        backgroundColor: '#66666650',
-    },
-    pickerText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: Theme.White,
-        margin: 0,
-    },
-    textContainer: {
         flexGrow: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: Theme.White,
+        backgroundColor: Theme.DarkLightBlue,
     },
-    contactText: {
-        fontSize: 16,
-    },
-    lastPOC: {
-        fontSize: 14,
-    },
-    inset: {
-        width: 80,
-        height: 40,
-        backgroundColor: Theme.FadedBlue,
-    },
-    pocPicker: {
+    optionsContainer: {
+        height: 100,
         width: '100%',
-        maxHeight: '80%',
-        borderTopWidth: 1,
-        borderTopColor: Theme.Blue,
-        borderBottomWidth: 1,
-        borderBottomColor: Theme.Blue,
+        flexDirection: 'column',
+        backgroundColor: Theme.White,
     },
 });
 

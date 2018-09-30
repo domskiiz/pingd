@@ -9,6 +9,7 @@ const Theme = {
     FadedBlue: '#ccdfe5',
     FadedBlueContact: '#a4b9c7',
     LightBlue: '#f7fcff',
+    DarkLightBlue: '#e7eff2',
 
     Green: '#6a9c78',
     FadedGreen: '#dfefdf',
@@ -17,6 +18,7 @@ const Theme = {
     FadedPurple: '#e0d8ea',
 
     Black: '#000000',
+    Gray:  '#a3a3a3',
     White: '#ffffff',
 };
 
