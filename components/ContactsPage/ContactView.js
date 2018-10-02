@@ -6,6 +6,7 @@ import {
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import ContactOption from './ContactOption';
 import ContactViewTop from './ContactViewTop';
 import PriorityPicker from './PriorityPicker';
 import Theme from '../Theme';
@@ -57,7 +58,11 @@ class ContactView extends Component {
                 />
                 <View style={styles.lowerContainer}>
                     <View style={styles.optionsContainer}>
-
+                        <ContactOption option="I will" selected="contact"/>
+                        <ContactOption last
+                            option={`${contact.firstName} every`}
+                            selected="2 weeks"
+                        />
                     </View>
                 </View>
             </View>
@@ -90,7 +95,6 @@ const styles = StyleSheet.create({
         backgroundColor: Theme.DarkLightBlue,
     },
     optionsContainer: {
-        height: 100,
         width: '100%',
         flexDirection: 'column',
         backgroundColor: Theme.White,

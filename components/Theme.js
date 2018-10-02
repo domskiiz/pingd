@@ -18,8 +18,9 @@ const Theme = {
     FadedPurple: '#e0d8ea',
 
     Black: '#000000',
-    Gray:  '#a3a3a3',
     White: '#ffffff',
+    Gray:     '#a3a3a3',
+    DarkGray: '#7f7f7f',
 };
 
 export default Theme;
