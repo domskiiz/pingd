@@ -58,9 +58,14 @@ class ContactView extends Component {
                 />
                 <View style={styles.lowerContainer}>
                     <View style={styles.optionsContainer}>
-                        <ContactOption option="I will" selected="contact"/>
+                        <ContactOption
+                            option="I will"
+                            selections={['contact', 'Facebook message']}
+                            selected="contact"
+                        />
                         <ContactOption last
                             option={`${contact.firstName} every`}
+                            selections={['2 weeks']}
                             selected="2 weeks"
                         />
                     </View>

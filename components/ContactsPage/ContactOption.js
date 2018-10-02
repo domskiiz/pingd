@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Image,
+    Picker,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -11,26 +12,71 @@ import PropTypes from 'prop-types';
 import Theme from '../Theme';
 
 
-const ContactOption = (props) => (
-    <View style={styles.outer}>
-        <TouchableOpacity style={styles.optionContainer}>
-            <View style={styles.textContainer}>
-                <Text style={styles.optionText}>{props.option}</Text>
-                <Text style={styles.selectedText}>{props.selected}</Text>
+class ContactOption extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {expanded: false};
+        this._toggleExpand = this._toggleExpand.bind(this);
+    }
+
+    _toggleExpand() {
+        this.setState({expanded: !this.state.expanded});
+    }
+
+    render() {
+        let picker = null;
+        if (this.state.expanded) {
+            let pickerItems = [];
+            this.props.selections.forEach((opt, i) => {
+                pickerItems.push(
+                    <Picker.Item key={i} label={opt} value={opt}/>
+                );
+            });
+
+            picker = (
+                <View>
+                    <View style={styles.border}/>
+                    <Picker
+                        style={styles.picker}
+                        selectedValue="item2"
+                    >
+                        {pickerItems}
+                    </Picker>
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.outer}>
+                <TouchableOpacity
+                    style={styles.optionContainer}
+                    onPress={this._toggleExpand}
+                >
+                    <View style={styles.textContainer}>
+                        <Text style={styles.optionText}>
+                            {this.props.option}
+                        </Text>
+                        <Text style={styles.selectedText}>
+                            {this.props.selected}
+                        </Text>
+                    </View>
+                    <Image
+                        style={styles.chevron}
+                        source={require('../../assets/chevron-right.png')}
+                    />
+                </TouchableOpacity>
+                {picker}
+                {this.props.last ? null : <View style={styles.border}/>}
             </View>
-            <Image
-                style={styles.chevron}
-                source={require('../../assets/chevron-right.png')}
-            />
-        </TouchableOpacity>
-        {props.last ? null : <View style={styles.border}/>}
-    </View>
-);
+        );
+    }
+}
 
 ContactOption.propTypes = {
     last: PropTypes.bool,
     option: PropTypes.string.isRequired,
-    selected: PropTypes.string,
+    selections: PropTypes.array.isRequired,
+    selected: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
