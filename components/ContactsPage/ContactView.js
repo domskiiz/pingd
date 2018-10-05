@@ -26,6 +26,7 @@ class ContactView extends Component {
         this.state = {
             priorityPicker: false,
             notes: '',
+            method: this.props.contact.contactMethod,
         };
 
         this._getContactFreqPicker = this._getContactFreqPicker.bind(this);
@@ -42,12 +43,13 @@ class ContactView extends Component {
 
     _setContactPriority(priority) {
         this.props.setContactPriority(this.props.contact._id, priority);
-        this._togglePicker();
+        this._togglePriorityPicker();
     }
 
     _onContactMethodUpdate(newMethod) {
         this.props.contact.contactMethod = newMethod;
         this.props.updateContact(this.props.contact);
+        this.setState({method: newMethod});
     }
 
     _onNotesChange(text) {
@@ -66,7 +68,7 @@ class ContactView extends Component {
                 <View style={styles.pickerBorder}/>
                 <Picker
                     onValueChange={this._onContactMethodUpdate}
-                    selectedValue={this.props.contact.contactMethod}
+                    selectedValue={this.state.method}
                 >
                     {items}
                 </Picker>
@@ -140,7 +142,7 @@ class ContactView extends Component {
                     <View style={styles.optionsContainer}>
                         <ContactOption
                             option="I will"
-                            selected={contact.contactMethod}
+                            selected={this.state.method}
                             picker={this._getContactMethodPicker}
                         />
                         <ContactOption last

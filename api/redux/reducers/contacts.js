@@ -86,7 +86,7 @@ export default function contacts(contactsState = initialState, action) {
 
             for (let i = 0; i < newState.length; i++) {
                 let oldContact = newState[i].contact;
-                if (contact._id !== oldContact._id) {
+                if (contact._id === oldContact._id) {
                     newState[i].contact = contact;
                 }
             }
