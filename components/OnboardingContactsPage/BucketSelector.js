@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 import Theme from '../Theme';
-import {Types} from '../RelationshipTypes';
+import {Types} from '../ContactUtils';
 
 
 const Selector = (props) => {

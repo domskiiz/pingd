@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 import Card from '../generic/Card';
-import {Types} from '../RelationshipTypes';
+import {Types} from '../ContactUtils';
 import Theme from '../Theme';
 
 

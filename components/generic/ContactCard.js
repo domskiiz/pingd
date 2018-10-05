@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 import Theme from '../Theme';
-import {getColor} from '../RelationshipTypes';
+import {getColor} from '../ContactUtils';
 
 
 function getImageBorder(priority) {

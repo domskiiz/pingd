@@ -9,44 +9,14 @@ import {
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {ContactMethods} from '../ContactUtils';
 import ContactOption from './ContactOption';
 import ContactViewTop from './ContactViewTop';
 import PriorityPicker from './PriorityPicker';
 import Theme from '../Theme';
 
 import setContactPriority from '../../api/redux/actions/setContactPriority';
-
-
-const contactPicker = () => (
-    <View>
-        <View style={styles.pickerBorder}/>
-        <Picker selectedValue="item2">
-            <Picker.Item label="item 1" value="item1"/>
-            <Picker.Item label="item 2" value="item2"/>
-            <Picker.Item label="item 3" value="item3"/>
-        </Picker>
-    </View>
-);
-
-
-const freqPicker = () => (
-    <View>
-        <View style={styles.pickerBorder}/>
-        <View style={styles.pickerContainer}>
-            <Picker style={styles.halfPicker} selectedValue="item2">
-                <Picker.Item label="item 1" value="item1"/>
-                <Picker.Item label="item 2" value="item2"/>
-                <Picker.Item label="item 3" value="item3"/>
-            </Picker>
-            <Picker style={styles.halfPicker} selectedValue="weeks">
-                <Picker.Item label="days" value="days"/>
-                <Picker.Item label="weeks" value="weeks"/>
-                <Picker.Item label="months" value="months"/>
-                <Picker.Item label="years" value="years"/>
-            </Picker>
-        </View>
-    </View>
-);
+import updateContact from '../../api/redux/actions/updateContact';
 
 
 class ContactView extends Component {
@@ -58,6 +28,9 @@ class ContactView extends Component {
             notes: '',
         };
 
+        this._getContactFreqPicker = this._getContactFreqPicker.bind(this);
+        this._getContactMethodPicker = this._getContactMethodPicker.bind(this);
+        this._onContactMethodUpdate = this._onContactMethodUpdate.bind(this);
         this._onNotesChange = this._onNotesChange.bind(this);
         this._setContactPriority = this._setContactPriority.bind(this);
         this._togglePriorityPicker = this._togglePriorityPicker.bind(this);
@@ -72,8 +45,54 @@ class ContactView extends Component {
         this._togglePicker();
     }
 
+    _onContactMethodUpdate(newMethod) {
+        this.props.contact.contactMethod = newMethod;
+        this.props.updateContact(this.props.contact);
+    }
+
     _onNotesChange(text) {
         this.setState({notes: text});
+    }
+
+    _getContactMethodPicker() {
+        let items = [];
+        for (let i = 0; i < ContactMethods.length; i++) {
+            let val = ContactMethods[i];
+            items.push(<Picker.Item key={i} label={val} value={val}/>);
+        }
+
+        return (
+            <View>
+                <View style={styles.pickerBorder}/>
+                <Picker
+                    onValueChange={this._onContactMethodUpdate}
+                    selectedValue={this.props.contact.contactMethod}
+                >
+                    {items}
+                </Picker>
+            </View>
+        );
+    }
+
+    _getContactFreqPicker() {
+        return (
+            <View>
+                <View style={styles.pickerBorder}/>
+                <View style={styles.pickerContainer}>
+                    <Picker style={styles.halfPicker} selectedValue="item2">
+                        <Picker.Item label="item 1" value="item1"/>
+                        <Picker.Item label="item 2" value="item2"/>
+                        <Picker.Item label="item 3" value="item3"/>
+                    </Picker>
+                    <Picker style={styles.halfPicker} selectedValue="weeks">
+                        <Picker.Item label="days" value="days"/>
+                        <Picker.Item label="weeks" value="weeks"/>
+                        <Picker.Item label="months" value="months"/>
+                        <Picker.Item label="years" value="years"/>
+                    </Picker>
+                </View>
+            </View>
+        );
     }
 
     _formatPOCDate(date) {
@@ -121,13 +140,13 @@ class ContactView extends Component {
                     <View style={styles.optionsContainer}>
                         <ContactOption
                             option="I will"
-                            selected="contact"
-                            picker={contactPicker}
+                            selected={contact.contactMethod}
+                            picker={this._getContactMethodPicker}
                         />
                         <ContactOption last
                             option={`${contact.firstName} every`}
                             selected="2 weeks"
-                            picker={freqPicker}
+                            picker={this._getContactFreqPicker}
                         />
                     </View>
                     <View style={styles.LPOCContainer}>
@@ -160,6 +179,7 @@ ContactView.propTypes = {
     reset: PropTypes.func.isRequired,
     // Redux actions
     setContactPriority: PropTypes.func.isRequired,
+    updateContact: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -247,6 +267,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
     setContactPriority: (cid, p) => dispatch(setContactPriority(cid, p)),
+    updateContact: (c) => dispatch(updateContact(c)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactView);

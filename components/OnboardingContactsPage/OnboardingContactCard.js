@@ -12,7 +12,7 @@ import setContactPriority from '../../api/redux/actions/setContactPriority';
 
 import BucketSelector from './BucketSelector';
 import ContactCard from '../generic/ContactCard';
-import {ContactFreqs} from '../RelationshipTypes';
+import {ContactFreqs} from '../ContactUtils';
 import Theme from '../Theme';
 
 
@@ -72,6 +72,7 @@ class OnboardingContactCard extends Component {
                 phoneNumber: this.props.phoneNumber,
                 thumbnail: this.props.thumbnail,
                 priority: priority,
+                contactMethod: 'contact',
                 lastContact: 0,
                 nextContact: this._getInitialContactTime(priority),
             };

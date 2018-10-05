@@ -15,7 +15,7 @@ import {
     getColorFaded,
     getColorImage,
     getText,
-} from '../RelationshipTypes';
+} from '../ContactUtils';
 
 
 const CloseButton = (props) => (

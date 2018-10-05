@@ -3,6 +3,7 @@ const _ = require('lodash');
 import {ADD_CONTACT} from '../actions/addContact';
 import {REMOVE_CONTACT} from '../actions/removeContact';
 import {SET_CONTACT_PRIORITY} from '../actions/setContactPriority';
+import {UPDATE_CONTACT} from '../actions/updateContact';
 
 const initialState = [];
 
@@ -76,6 +77,21 @@ export default function contacts(contactsState = initialState, action) {
             }
 
             return finalState;
+        }
+
+        case UPDATE_CONTACT: {
+            const newState = _.cloneDeep(contactsState);
+            const {payload} = action;
+            const {contact} = payload;
+
+            for (let i = 0; i < newState.length; i++) {
+                let oldContact = newState[i].contact;
+                if (contact._id !== oldContact._id) {
+                    newState[i].contact = contact;
+                }
+            }
+
+            return newState;
         }
 
         default:

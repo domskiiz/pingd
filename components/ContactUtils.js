@@ -1,5 +1,5 @@
 /*
- * RelationshipTypes.js
+ * ContactUtils.js
  * defines constants & utility functions for relationship types
  */
 
@@ -16,6 +16,14 @@ const ContactFreqs = {
     1: 30, // days (1 month)
     2: 60, // days (2 months)
 };
+
+const ContactMethods = [
+    'contact',
+    'call',
+    'text',
+    'email',
+    'Facebook message',
+];
 
 function getColor(type) {
     if (type === Types.Friend) return Theme.Green;
@@ -44,6 +52,7 @@ function getText(type) {
 export {
     Types,
     ContactFreqs,
+    ContactMethods,
     getColor,
     getColorFaded,
     getColorImage,
