@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {
+    Picker,
     StyleSheet,
+    Text,
+    TextInput,
     View,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -14,14 +17,48 @@ import Theme from '../Theme';
 import setContactPriority from '../../api/redux/actions/setContactPriority';
 
 
+const contactPicker = () => (
+    <View>
+        <View style={styles.pickerBorder}/>
+        <Picker selectedValue="item2">
+            <Picker.Item label="item 1" value="item1"/>
+            <Picker.Item label="item 2" value="item2"/>
+            <Picker.Item label="item 3" value="item3"/>
+        </Picker>
+    </View>
+);
+
+
+const freqPicker = () => (
+    <View>
+        <View style={styles.pickerBorder}/>
+        <View style={styles.pickerContainer}>
+            <Picker style={styles.halfPicker} selectedValue="item2">
+                <Picker.Item label="item 1" value="item1"/>
+                <Picker.Item label="item 2" value="item2"/>
+                <Picker.Item label="item 3" value="item3"/>
+            </Picker>
+            <Picker style={styles.halfPicker} selectedValue="weeks">
+                <Picker.Item label="days" value="days"/>
+                <Picker.Item label="weeks" value="weeks"/>
+                <Picker.Item label="months" value="months"/>
+                <Picker.Item label="years" value="years"/>
+            </Picker>
+        </View>
+    </View>
+);
+
+
 class ContactView extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             priorityPicker: false,
+            notes: '',
         };
 
+        this._onNotesChange = this._onNotesChange.bind(this);
         this._setContactPriority = this._setContactPriority.bind(this);
         this._togglePriorityPicker = this._togglePriorityPicker.bind(this);
     }
@@ -33,6 +70,10 @@ class ContactView extends Component {
     _setContactPriority(priority) {
         this.props.setContactPriority(this.props.contact._id, priority);
         this._togglePicker();
+    }
+
+    _onNotesChange(text) {
+        this.setState({notes: text});
     }
 
     render() {
@@ -60,13 +101,32 @@ class ContactView extends Component {
                     <View style={styles.optionsContainer}>
                         <ContactOption
                             option="I will"
-                            selections={['contact', 'Facebook message']}
                             selected="contact"
+                            picker={contactPicker}
                         />
                         <ContactOption last
                             option={`${contact.firstName} every`}
-                            selections={['2 weeks']}
                             selected="2 weeks"
+                            picker={freqPicker}
+                        />
+                    </View>
+                    <View style={styles.LPOCContainer}>
+                        <Text style={styles.LPOCText}>
+                            last point of contact:
+                        </Text>
+                        <View style={styles.LPOCBox}>
+                            <Text style={styles.LPOCInnerText}>
+                                October 1st
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.notesContainer}>
+                        <Text style={styles.notesTitle}>Notes:</Text>
+                        <TextInput
+                            style={styles.notes}
+                            multiline={true}
+                            onChangeText={this._onNotesChange}
+                            value={this.state.notes}
                         />
                     </View>
                 </View>
@@ -103,6 +163,63 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'column',
         backgroundColor: Theme.White,
+    },
+    pickerBorder: {
+        width: '90%',
+        left: '5%',
+        borderBottomWidth: 1,
+        borderBottomColor: Theme.Gray,
+    },
+    pickerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    halfPicker: {
+        width: '50%',
+    },
+    LPOCContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    LPOCText: {
+        fontSize: 18,
+        fontWeight: '500',
+        marginRight: 8,
+    },
+    LPOCBox: {
+        backgroundColor: Theme.White,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 18,
+        paddingRight: 18,
+        marginLeft: 8,
+    },
+    LPOCInnerText: {
+        fontSize: 18,
+        color: Theme.DarkGray,
+    },
+    notesContainer: {
+        width: '100%',
+        height: 250,
+        padding: 24,
+    },
+    notes: {
+        width: '100%',
+        height: '100%',
+        padding: 12,
+        paddingTop: 12,
+        backgroundColor: Theme.White,
+        fontSize: 14,
+    },
+    notesTitle: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: Theme.DarkGray,
+        marginBottom: 10,
     },
 });
 

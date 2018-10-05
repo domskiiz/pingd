@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Image,
-    Picker,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -24,28 +23,6 @@ class ContactOption extends React.Component {
     }
 
     render() {
-        let picker = null;
-        if (this.state.expanded) {
-            let pickerItems = [];
-            this.props.selections.forEach((opt, i) => {
-                pickerItems.push(
-                    <Picker.Item key={i} label={opt} value={opt}/>
-                );
-            });
-
-            picker = (
-                <View>
-                    <View style={styles.border}/>
-                    <Picker
-                        style={styles.picker}
-                        selectedValue="item2"
-                    >
-                        {pickerItems}
-                    </Picker>
-                </View>
-            );
-        }
-
         return (
             <View style={styles.outer}>
                 <TouchableOpacity
@@ -65,7 +42,7 @@ class ContactOption extends React.Component {
                         source={require('../../assets/chevron-right.png')}
                     />
                 </TouchableOpacity>
-                {picker}
+                {this.state.expanded ? this.props.picker() : null}
                 {this.props.last ? null : <View style={styles.border}/>}
             </View>
         );
@@ -75,7 +52,7 @@ class ContactOption extends React.Component {
 ContactOption.propTypes = {
     last: PropTypes.bool,
     option: PropTypes.string.isRequired,
-    selections: PropTypes.array.isRequired,
+    picker: PropTypes.func.isRequired,
     selected: PropTypes.string.isRequired,
 };
 
@@ -88,12 +65,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-    },
-    border: {
-        width: '90%',
-        left: '5%',
-        borderBottomWidth: 1,
-        borderBottomColor: Theme.Gray,
     },
     textContainer: {
         flexGrow: 1,
@@ -118,6 +89,12 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         marginRight: 20,
+    },
+    border: {
+        width: '90%',
+        left: '5%',
+        borderBottomWidth: 1,
+        borderBottomColor: Theme.Gray,
     },
 });
 
