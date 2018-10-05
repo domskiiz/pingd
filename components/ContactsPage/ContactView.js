@@ -76,6 +76,26 @@ class ContactView extends Component {
         this.setState({notes: text});
     }
 
+    _formatPOCDate(date) {
+        if (date === 0)
+            return 'N/A';
+
+        let dateStr = '';
+
+        let months = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+        dateStr += `${months[date.getMonth()]} `;
+
+        let day = date.getDate();
+        dateStr += day;
+        if (day % 10 === 1 && day !== 11) dateStr += 'st';
+        else if (day % 10 === 2 && day !== 12) dateStr += 'nd';
+        else if (day % 10 === 3 && day !== 13) dateStr += 'rd';
+        else dateStr += 'th';
+
+        return dateStr;
+    }
+
     render() {
         let contact = this.props.contact;
         let name = `${contact.firstName} ${contact.lastName}`;
@@ -116,7 +136,7 @@ class ContactView extends Component {
                         </Text>
                         <View style={styles.LPOCBox}>
                             <Text style={styles.LPOCInnerText}>
-                                October 1st
+                                {this._formatPOCDate(contact.lastContact)}
                             </Text>
                         </View>
                     </View>
