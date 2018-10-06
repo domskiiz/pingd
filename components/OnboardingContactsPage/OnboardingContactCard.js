@@ -72,6 +72,7 @@ class OnboardingContactCard extends Component {
                 phoneNumber: this.props.phoneNumber,
                 thumbnail: this.props.thumbnail,
                 priority: priority,
+                contactFrequency: ContactFreqs[priority],
                 contactMethod: 'contact',
                 lastContact: 0,
                 nextContact: this._getInitialContactTime(priority),

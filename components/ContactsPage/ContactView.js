@@ -9,6 +9,7 @@ import {
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Card from '../generic/Card';
 import {ContactMethods} from '../ContactUtils';
 import ContactOption from './ContactOption';
 import ContactViewTop from './ContactViewTop';
@@ -23,13 +24,18 @@ class ContactView extends Component {
     constructor(props) {
         super(props);
 
+        let [num, unit] = this._getFrequencyParts(this.props.contact.contactFrequency);
         this.state = {
             priorityPicker: false,
             notes: '',
             method: this.props.contact.contactMethod,
+            freqNum: num,
+            freqUnit: unit,
         };
 
         this._getContactFreqPicker = this._getContactFreqPicker.bind(this);
+        this._onContactFreqNumUpdate = this._onContactFreqNumUpdate.bind(this);
+        this._onContactFreqUnitUpdate = this._onContactFreqUnitUpdate.bind(this);
         this._getContactMethodPicker = this._getContactMethodPicker.bind(this);
         this._onContactMethodUpdate = this._onContactMethodUpdate.bind(this);
         this._onNotesChange = this._onNotesChange.bind(this);
@@ -50,6 +56,26 @@ class ContactView extends Component {
         this.props.contact.contactMethod = newMethod;
         this.props.updateContact(this.props.contact);
         this.setState({method: newMethod});
+    }
+
+    _recalculateFrequency(num, unit) {
+        let newFreq;
+        if (unit === 'days') newFreq = num;
+        else if (unit === 'weeks') newFreq = num * 7;
+        else if (unit === 'months') newFreq = num * 30;
+
+        this.props.contact.contactFrequency = newFreq;
+        this.props.updateContact(this.props.contact);
+    }
+
+    _onContactFreqNumUpdate(newNum) {
+        this._recalculateFrequency(newNum, this.state.freqUnit);
+        this.setState({freqNum: newNum});
+    }
+
+    _onContactFreqUnitUpdate(newUnit) {
+        this._recalculateFrequency(this.state.freqNum, newUnit);
+        this.setState({freqUnit: newUnit});
     }
 
     _onNotesChange(text) {
@@ -76,21 +102,47 @@ class ContactView extends Component {
         );
     }
 
+    _getFrequencyParts(freq) {
+        let freqNum, freqUnit;
+
+        if (freq % 30 === 0) {
+            freqUnit = 'months';
+            freqNum = freq / 30;
+        } else if (freq % 7 === 0) {
+            freqUnit = 'weeks';
+            freqNum = freq / 7;
+        } else {
+            freqUnit = 'days';
+            freqNum = freq;
+        }
+
+        return [freqNum, freqUnit];
+    }
+
     _getContactFreqPicker() {
+        let freqNums = [];
+        for (let i = 1; i <= 30; i++)
+            freqNums.push(<Picker.Item key={i} label={i.toString()} value={i.toString()}/>);
+
         return (
             <View>
                 <View style={styles.pickerBorder}/>
                 <View style={styles.pickerContainer}>
-                    <Picker style={styles.halfPicker} selectedValue="item2">
-                        <Picker.Item label="item 1" value="item1"/>
-                        <Picker.Item label="item 2" value="item2"/>
-                        <Picker.Item label="item 3" value="item3"/>
+                    <Picker
+                        onValueChange={this._onContactFreqNumUpdate}
+                        style={styles.halfPicker}
+                        selectedValue={this.state.freqNum.toString()}
+                    >
+                        {freqNums}
                     </Picker>
-                    <Picker style={styles.halfPicker} selectedValue="weeks">
+                    <Picker
+                        onValueChange={this._onContactFreqUnitUpdate}
+                        style={styles.halfPicker}
+                        selectedValue={this.state.freqUnit}
+                    >
                         <Picker.Item label="days" value="days"/>
                         <Picker.Item label="weeks" value="weeks"/>
                         <Picker.Item label="months" value="months"/>
-                        <Picker.Item label="years" value="years"/>
                     </Picker>
                 </View>
             </View>
@@ -147,7 +199,7 @@ class ContactView extends Component {
                         />
                         <ContactOption last
                             option={`${contact.firstName} every`}
-                            selected="2 weeks"
+                            selected={`${this.state.freqNum} ${this.state.freqUnit}`}
                             picker={this._getContactFreqPicker}
                         />
                     </View>
@@ -155,20 +207,22 @@ class ContactView extends Component {
                         <Text style={styles.LPOCText}>
                             last point of contact:
                         </Text>
-                        <View style={styles.LPOCBox}>
+                        <Card style={styles.LPOCBox}>
                             <Text style={styles.LPOCInnerText}>
                                 {this._formatPOCDate(contact.lastContact)}
                             </Text>
-                        </View>
+                        </Card>
                     </View>
                     <View style={styles.notesContainer}>
                         <Text style={styles.notesTitle}>Notes:</Text>
-                        <TextInput
-                            style={styles.notes}
-                            multiline={true}
-                            onChangeText={this._onNotesChange}
-                            value={this.state.notes}
-                        />
+                        <Card>
+                            <TextInput
+                                style={styles.notes}
+                                multiline={true}
+                                onChangeText={this._onNotesChange}
+                                value={this.state.notes}
+                            />
+                        </Card>
                     </View>
                 </View>
             </View>
