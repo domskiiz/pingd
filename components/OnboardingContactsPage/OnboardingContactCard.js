@@ -76,6 +76,7 @@ class OnboardingContactCard extends Component {
                 contactMethod: 'contact',
                 lastContact: 0,
                 nextContact: this._getInitialContactTime(priority),
+                notes: '',
             };
 
             this.props.addContact(contact);

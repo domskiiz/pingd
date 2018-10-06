@@ -27,7 +27,7 @@ class ContactView extends Component {
         let [num, unit] = this._getFrequencyParts(this.props.contact.contactFrequency);
         this.state = {
             priorityPicker: false,
-            notes: '',
+            notes: this.props.contact.notes,
             method: this.props.contact.contactMethod,
             freqNum: num,
             freqUnit: unit,
@@ -80,6 +80,8 @@ class ContactView extends Component {
 
     _onNotesChange(text) {
         this.setState({notes: text});
+        this.props.contact.notes = text;
+        this.props.updateContact(this.props.contact);
     }
 
     _getContactMethodPicker() {
