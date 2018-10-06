@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 import Theme from '../Theme';
-import {getColor} from '../RelationshipTypes';
+import {getColor} from '../ContactUtils';
 
 
 function getImageBorder(priority) {
@@ -30,24 +30,28 @@ const ContactCard = (props) => {
         imageStyle.push(getImageBorder(props.priority));
 
     return (
-        <Card style={[styles.container, props.style]}>
-            <Image
-                source={contactImg}
-                style={imageStyle}
-            />
-            <View style={styles.info}>
-                <Text style={styles.name}>{props.name}</Text>
-                <Text style={styles.phone}>{props.phoneNumber}</Text>
+        <Card style={props.style}>
+            <View style={styles.container}>
+                <Image
+                    source={contactImg}
+                    style={imageStyle}
+                />
+                <View style={styles.info}>
+                    <Text style={styles.name}>{props.name}</Text>
+                    <Text style={styles.phone}>{props.phoneNumber}</Text>
+                </View>
             </View>
+            {props.children}
         </Card>
     );
 };
 
 ContactCard.propTypes = {
+    children: PropTypes.object,
+    style: PropTypes.array,
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     priority: PropTypes.number,
-    style: PropTypes.array,
     thumbnail: PropTypes.string.isRequired,
 };
 
@@ -63,7 +67,10 @@ const styles = StyleSheet.create({
         width: 58,
         height: 58,
         borderRadius: 29,
-        margin: 20,
+        marginTop: 15,
+        marginBottom: 15,
+        marginLeft: 20,
+        marginRight: 20,
         backgroundColor: Theme.FadedBlueContact,
     },
     info: {

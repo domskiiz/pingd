@@ -7,9 +7,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Card from '../generic/Card';
 import Theme from '../Theme';
-import {Types} from '../RelationshipTypes';
+import {Types} from '../ContactUtils';
 
 
 const Selector = (props) => {
@@ -54,13 +53,13 @@ class BucketSelector extends Component {
     select(priority) {
         this.setState({selected: priority});
         this.props.setPriority(priority);
-        this.props.flip();
+        this.props.expand();
     }
 
     render() {
         let priority = this.props.priority;
         return (
-            <Card style={[styles.container, this.props.style]}>
+            <View style={styles.container}>
                 <Selector friend
                     selected={priority < 0 || priority === Types.Friend}
                     setPriority={() => this.select(Types.Friend)}
@@ -73,14 +72,14 @@ class BucketSelector extends Component {
                     selected={priority < 0 || priority === Types.Touchpoint}
                     setPriority={() => this.select(Types.Touchpoint)}
                 />
-            </Card>
+            </View>
         );
     }
 }
 
 BucketSelector.propTypes = {
     priority: PropTypes.number.isRequired,
-    flip: PropTypes.func.isRequired,
+    expand: PropTypes.func.isRequired,
     setPriority: PropTypes.func.isRequired,
     style: PropTypes.array,
 };
@@ -92,16 +91,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 5,
-        paddingRight: 5,
     },
     selector: {
         flex: 1,
-        marginLeft: 5,
-        marginRight: 5,
-        borderRadius: 3,
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -109,7 +101,7 @@ const styles = StyleSheet.create({
     selectorText: {
         fontSize: 12,
         color: Theme.White,
-        marginBottom: 5,
+        margin: 10,
     },
 });
 

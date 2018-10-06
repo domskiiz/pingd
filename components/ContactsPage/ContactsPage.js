@@ -15,24 +15,7 @@ import ContactSeparator from '../generic/ContactSeparator';
 import ContactView from './ContactView';
 import Theme from '../Theme';
 
-
-function compareContacts(contact1, contact2) {
-    let c1 = contact1.contact;
-    let c2 = contact2.contact;
-
-    if (c1.lastName < c2.lastName)
-        return -1;
-    else if (c1.lastName > c2.lastName)
-        return 1;
-    else {
-        if (c1.firstName < c2.firstName)
-            return -1;
-        else if (c1.firstName > c2.firstName)
-            return 1;
-    }
-
-    return 0;
-}
+import compareContacts from '../../utils/compareContacts';
 
 
 class ContactsPage extends Component {
@@ -70,7 +53,7 @@ class ContactsPage extends Component {
     }
 
     _showContact(contact) {
-        this.setState({viewing: contact});
+        this.setState({viewing: contact._id});
     }
 
     _resetContact() {
@@ -99,20 +82,18 @@ class ContactsPage extends Component {
     }
 
     render() {
-        if (this.state.viewing !== null) {
-            return (
-                <ContactView
-                    contact={this.state.viewing}
-                    reset={this._resetContact}
-                />
-            );
-        }
-
         let contacts = this.props.contacts ? this.props.contacts : [];
         contacts.sort(compareContacts);
 
+        let contact = null;
+        if (this.state.viewing !== null) {
+            let shown = contacts.find(c => c.contact._id === this.state.viewing);
+            contact = <ContactView contact={shown.contact} reset={this._resetContact}/>;
+        }
+
         return (
             <View style={styles.container}>
+                {contact}
                 <AppBar height={72}>
                     <Text style={styles.title}>Contacts</Text>
                 </AppBar>
