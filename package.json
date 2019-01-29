@@ -7,18 +7,22 @@
     "test": "jest"
   },
   "dependencies": {
+    "adm-zip": "^0.4.13",
     "lodash": "^4.17.10",
+    "plist": "^3.0.1",
     "prop-types": "^15.6.2",
     "react": "16.3.1",
     "react-native": "^0.56.0",
     "react-native-contacts": "^2.2.2",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-navigation": "^1.1.483",
     "react-native-swiper": "^1.5.13",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-subscriber": "^1.1.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "xcode": "^2.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
