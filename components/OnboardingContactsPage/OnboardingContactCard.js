@@ -114,7 +114,12 @@ class OnboardingContactCard extends Component {
     }
 
     render() {
-        let name = `${this.props.firstName} ${this.props.lastName}`;
+        let name;
+        if (this.props.firstName !== '')
+            name = `${this.props.firstName} ${this.props.lastName}`;
+        else
+            name = this.props.lastName;
+
         let phoneNumber = this.props.phoneNumber;  // TODO: format?
 
         let cardStyle = [styles.card];

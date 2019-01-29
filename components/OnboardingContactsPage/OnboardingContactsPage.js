@@ -116,12 +116,19 @@ class OnboardingContactsPage extends Component {
         if (contact.item.isSeparator)
             return <ContactSeparator letter={contact.item.letter}/>;
 
+        let first = contact.item.givenName ? contact.item.givenName : '';
+        let last = contact.item.familyName ? contact.item.familyName : '';
+        let phone;
+        if (!contact.item.phoneNumbers.length || !contact.item.phoneNumbers[0])
+            phone = '';
+        else
+            phone = contact.item.phoneNumbers[0].number;
+
         return (
             <OnboardingContactCard
                 contactID={contact.item.recordID}
-                firstName={contact.item.givenName}
-                lastName={contact.item.familyName}
-                phoneNumber={contact.item.phoneNumbers[0].number}
+                firstName={first} lastName={last}
+                phoneNumber={phone}
                 thumbnail={contact.item.thumbnailPath}
             />
         );
