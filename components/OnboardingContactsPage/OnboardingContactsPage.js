@@ -84,6 +84,16 @@ function compareContacts(c1, c2) {
     return 0;
 }
 
+function filterContacts(c) {
+    // system contact
+    if (c.givenName.startsWith('#'))
+        return false;
+    // filter no-name contacts
+    if (c.givenName === '' && c.familyName === '')
+        return false;
+    return true;
+}
+
 
 class OnboardingContactsPage extends Component {
     constructor(props) {
@@ -104,13 +114,14 @@ class OnboardingContactsPage extends Component {
         this._getContacts();
     }
 
-    _getContacts = () => {
+    _getContacts() {
         Contacts.getAll((err, contacts) => {
             if (err)
                 throw err;
+            contacts = contacts.filter(filterContacts);
             this.setState({contacts: contacts.sort(compareContacts)});
         });
-    };
+    }
 
     _renderContactCard(contact) {
         if (contact.item.isSeparator)
