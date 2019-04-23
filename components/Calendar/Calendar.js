@@ -22,20 +22,22 @@ export default class PingList extends Component {
       };
     }
     render() {
+      const birthday = {key:'birthday', color: 'blue', selectedDotColor: 'white'};
+      const social_event = {key:'event', color: 'green', selectedDotColor: 'white'};
         let dates = {};
         let event_details = [];
         for(i = 0; i < Object.keys(this.state.birthdays).length; i ++){
           // Better way: Save by month, so only interate through month's bdays per click...
           bday = this.state.birthdays[i];
-          dates[bday.date] = {marked:true};
+          dates[bday.date] = {dots: [birthday], marked:true};
 
           if(bday.date === this.state.selectedDate){
             event_details.push(bday.title);
           }
         };
-        dates['2018-08-17'] = {marked: true};
-        dates['2018-08-18'] = {marked: true, dotColor: 'red', activeOpacity: 0};
-        dates['2018-08-19'] = {disabled: true, disableTouchEvent: true};
+        dates['2018-08-17'] = {dots: [social_event]};
+        dates['2018-08-18'] = {dots: [social_event], marked: true, dotColor: 'red', activeOpacity: 0};
+        dates['2018-08-19'] = {dots: [social_event, birthday], dotColor: 'green'};
         dates[this.state.selectedDate] = {selected: true, selectedColor: 'blue'};
 
         return (
@@ -44,6 +46,7 @@ export default class PingList extends Component {
             <Calendar
               horizontal = {true}
               paginEnabled = {true}
+              markingType={'multi-dot'}
               onDayPress={(day) => { this.setState({selectedDate: day.dateString}) }}
               onDayLongPress={(day) => {console.log('long selected day', day)}}
               // Specify style for calendar container element. Default = {}

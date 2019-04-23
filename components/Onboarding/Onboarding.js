@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 import Swiper from 'react-native-swiper';
+import Theme from '../Theme';
 
 import {connect} from 'react-redux';
 import * as appActions from '../../api/redux/actions/appActions/changeRoot';
@@ -26,15 +27,22 @@ class Onboarding extends Component {
         return (
             <Swiper>
                 <View style={styles.slide1}>
-                    <Text>Some onboarding text here</Text>
+                  <View></View>
+                  <View><Text>Social Relations are like flowers</Text></View>
                 </View>
                 <View style={styles.slide2}>
-                    <Text>More text here</Text>
+                  <View></View>
+                  <View><Text>Our lives are busy</Text></View>
+                </View>
+                <View style={styles.slide1}>
+                    <View></View>
+                    <View><Text>Pingd helps you text/call your friends</Text></View>
                 </View>
                 <View style={styles.slide3}>
-                    <Text>Yay! lets import your contacts</Text>
+                    <Text>The secret to a meaningful life is a beautiful social garden of strong,
+                    high quality relationships</Text>
                     <Button
-                        title="Get started"
+                        title="Let's Get Started"
                         onPress={this._startApp}
                     />
                 </View>
@@ -69,6 +77,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#9DD6EB',
+    },
+
+    container: {
+        flex: 1,
+        height: 80,
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: Theme.LightBlue,
+        shadowColor: Theme.DarkBlue,
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 6,
     },
     slide2: {
         flex: 1,
