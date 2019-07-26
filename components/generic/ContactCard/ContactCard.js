@@ -41,7 +41,10 @@ class ContactCard extends Component {
             lastName: this.props.lastName,
             phone: this.props.phoneNumber,
         };
-        this.props.addContact(contact, priority);
+
+        var daysUntil = Math.floor(Math.random() * priority) + 1;
+
+        this.props.addContact(contact, priority, daysUntil);
         this.setState({priority: priority});
     }
 
@@ -78,9 +81,9 @@ class ContactCard extends Component {
             borderWidth: 4,
         };
 
-        if (this.state.priority === 0) style.borderColor = Theme.Green;
-        else if (this.state.priority === 1) style.borderColor = Theme.Blue;
-        else if (this.state.priority === 2) style.borderColor = Theme.Purple;
+        if (this.state.priority === 30) style.borderColor = Theme.Green;
+        else if (this.state.priority === 90) style.borderColor = Theme.Blue;
+        else if (this.state.priority === 360) style.borderColor = Theme.Purple;
 
         return style;
     }
@@ -148,7 +151,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addContact: (c, p) => dispatch(addContact(c, p)),
+        addContact: (c, p, d) => dispatch(addContact(c, p, d)),
     };
 };
 

@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import Theme from '../Theme';
 
 
-const FRIEND       = 0;
-const ACQUAINTANCE = 1;
-const TOUCHPOINT   = 2;
+const FRIEND       = 30;
+const ACQUAINTANCE = 90;
+const TOUCHPOINT   = 360;
 
 
 const Selector = (props) => {

@@ -41,9 +41,19 @@ export default function contacts(contactsState = initialState, action) {
         case ADD_CONTACT: {
             const newState = _.cloneDeep(contactsState);
             const {payload} = action;
-            newState.push(payload);
+            var uniqueState;
 
-            return newState;
+            // Using phone as UID, filter out if modifying instead of adding
+            if (newState.length > 1){
+              var uniqueState = newState.filter((val, index, arr) => {
+                return val.contact.phone != payload.contact.phone;
+              });
+            }
+            else var uniqueState = newState;
+
+            uniqueState.push(payload);
+
+            return uniqueState;
         }
 
         default:
