@@ -17,9 +17,11 @@ import SendSMS from 'react-native-sms';
 import Swipeable from 'react-native-swipeable-row';
 
 
-export default class PingCard extends Component {
+class PingCard extends Component {
     constructor(props) {
         super(props);
+
+        swipeable = null;
     }
 
     sendText(phoneNumber){
@@ -40,8 +42,9 @@ export default class PingCard extends Component {
 
     }
 
-    snoozeSwipe(){}
-    pingdSwipe(){}
+    handleUserBeganScrollingParentView() {
+      this.swipeable.recenter();
+    }
 
     getSubtitle(){
       var subtitle = `${this.props.daysUntil} days until ping`;
@@ -69,6 +72,12 @@ export default class PingCard extends Component {
       };
 
       return style;
+    }
+
+    changeDaysUntil(type){
+
+      console.log('Function Called!');
+      this.props.changeDays(this.props.phone,type)
     }
 
     getCardStyle() {
@@ -99,15 +108,20 @@ export default class PingCard extends Component {
     }
 
     render() {
-        const leftContent = [<TouchableHighlight style={this.getSwipeStyle('#53d769')}>
-                                  <Text style={{textAlign:'right'}}>We{"\n"}Connected!</Text></TouchableHighlight>];
-        const rightContent = [<TouchableHighlight style={this.getSwipeStyle('#fd9426')}>
-                                  <Text>Snooze{"\n"}Ping</Text></TouchableHighlight>];
+        const leftContent = <View style={this.getSwipeStyle('#53d769')}>
+                                  <Text style={{textAlign:'right'}}>We{"\n"}Connected!</Text></View>;
+        const rightContent = <View style={this.getSwipeStyle('#fd9426')}>
+                                  <Text>Snooze{"\n"}Ping</Text></View>;
         let name = `${this.props.firstName} ${this.props.lastName}`;
 
         return(
-            <Swipeable leftButtons={leftContent} rightButtons={rightContent}>
-              <TouchableOpacity style={this.getCardStyle()} onLongPress={this.sendText(this.props.phone)}>
+            <Swipeable onRef={ref => this.swipeable = ref}
+                       leftContent={leftContent}
+                       onLeftActionRelease={() => this.changeDaysUntil('pingd')}
+                       rightContent={rightContent}
+                       onRightActionRelease={() => this.changeDaysUntil('snooze')}>
+              <TouchableOpacity style={this.getCardStyle()}
+                                onLongPress={() => this.sendText(this.props.phone)}>
                 <Text style={styles.title}>{name}</Text>
                 <Text style={styles.subtitle}> {this.getSubtitle()} </Text>
               </TouchableOpacity>
@@ -149,14 +163,14 @@ const styles = StyleSheet.create({
     },
 });
 
-// const mapStateToProps = () => {
-//     return { };
-// };
-//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         changeDays: (c, p, d) => dispatch(changeDays(c, p, d)),
-//     };
-// };
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(PingCard);
+const mapStateToProps = () => {
+    return { };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeDays: (phone, type) => dispatch(changeDays(phone, type)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PingCard);

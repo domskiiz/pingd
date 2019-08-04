@@ -28,7 +28,10 @@ class PingList extends Component {
 
         return (
             <View style={styles.container}>
-                <Text> Ping List </Text>
+                <Text style={styles.title}> Ping List </Text>
+                <Text style={styles.subtitle}>
+                  Swipe Right if you Connected, Swipe Left to Snooze{"\n"}
+                  Hold down card to text them Right Now!</Text>
                 {
                   pingContacts
                   ?
@@ -77,24 +80,16 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 22
     },
-    card:{
-      borderColor: Theme.Green,
-      borderWidth: 4,
-      marginBottom: 10,
-    },
-    title: {
-      padding: 10,
-      paddingBottom: 0,
-      fontSize: 18,
-      height: 44,
+    title:{
+      marginBottom: 4,
+      fontSize: 20,
+      height: 22,
       textAlign: 'center',
       fontWeight: 'bold',
     },
-    subtitle: {
-      paddingTop: 2,
+    subtitle:{
       paddingBottom: 10,
-      fontSize: 9,
-      height: 22,
+      fontSize: 8,
       textAlign: 'center',
-    },
+    }
 });
