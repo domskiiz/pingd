@@ -1,0 +1,6 @@
+framework module Pods_pingd_tvOSTests {
+  umbrella header "Pods-pingd-tvOSTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

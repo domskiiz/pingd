@@ -1,0 +1,6 @@
+framework module react_native_sms {
+  umbrella header "react-native-sms-umbrella.h"
+
+  export *
+  module * { export * }
+}

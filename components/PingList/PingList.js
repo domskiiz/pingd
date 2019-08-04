@@ -38,6 +38,7 @@ class PingList extends Component {
                             <PingCard
                                 firstName={c.item.contact.firstName}
                                 lastName={c.item.contact.lastName}
+                                phone = {c.item.contact.phone}
                                 priority={c.item.priority}
                                 daysUntil={c.item.daysUntil}
                                 index={c.index}

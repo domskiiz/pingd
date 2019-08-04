@@ -1,0 +1,56 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
+
+target 'pingd' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for pingd
+
+  # pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  #   'Core',
+  #   'CxxBridge',
+  #   'DevSupport',
+  #   'RCTText',
+  #   'RCTNetwork',
+  #   'RCTWebSocket',
+  #   'RCTAnimation',
+  #   'RCTImage',
+  # ]
+
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  use_unimodules!
+
+  # target 'pingd-tvOSTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
+
+  pod 'react-native-sms', :path => '../node_modules/react-native-sms'
+
+  target 'pingdTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'pingd-tvOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for pingd-tvOS
+
+  target 'pingd-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

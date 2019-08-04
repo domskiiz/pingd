@@ -126,7 +126,7 @@ ContactCard.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
+    // thumbnail: PropTypes.string.isRequired,
     addContact: PropTypes.func,
 };
 
