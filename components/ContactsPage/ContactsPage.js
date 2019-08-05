@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements'
 import ContactCard from '../generic/ContactCard/ContactCard';
 
 import {connect} from 'react-redux';
-// import * as appActions from '../../api/redux/actions/appActions/changeRoot';
+import * as appActions from '../../api/redux/actions/appActions/changeRoot';
 
 function compareContacts(c1, c2) {
     if (c1.contact.lastName < c2.contact.lastName)
@@ -31,7 +31,12 @@ function compareContacts(c1, c2) {
 class ContactsPage extends Component {
     constructor(props) {
         super(props);
-        // this._startApp = this._startApp.bind(this);
+        this._importContacts = this._importContacts.bind(this);
+    }
+
+    _importContacts = () => {
+        console.log('Add New Contacts')
+        this.props.startAppImporting();
     }
 
     render() {
@@ -53,7 +58,7 @@ class ContactsPage extends Component {
                   : null
                 }
                 <Button
-                onPress={() => console.log('Add New Contacts')}
+                onPress={this._importContacts}
                 title="Add Contacts"
                 color="royalblue"
                 accessibilityLabel="Click to import new contacts"
@@ -65,6 +70,7 @@ class ContactsPage extends Component {
 
 ContactsPage.propTypes = {
     contacts: PropTypes.array,
+    startAppImporting: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -73,8 +79,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = () => {
-    return { };
+const mapDispatchToProps = (dispatch) => {
+    return { startAppImporting: () => dispatch(appActions.login()),};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
