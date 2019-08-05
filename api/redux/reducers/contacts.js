@@ -1,5 +1,6 @@
 import {ADD_CONTACT} from '../actions/addContact';
 import {CHANGE_DAYS} from '../actions/changeContact';
+import {DELETE_CONTACT} from '../actions/deleteContact';
 const _ = require('lodash');
 
 const initialState = [];
@@ -22,6 +23,22 @@ export default function contacts(contactsState = initialState, action) {
             uniqueState.push(payload);
 
             return uniqueState;
+        }
+
+        case DELETE_CONTACT: {
+          let newState = [...contactsState];
+          var uniqueState;
+
+          console.log('delete contact');
+
+          var uniqueState = newState.filter((val, index, arr) => {
+            return val.contact.phone != action.payload.phone;
+          });
+
+          console.log(uniqueState);
+
+          return uniqueState;
+
         }
 
         case CHANGE_DAYS:{

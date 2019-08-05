@@ -3,9 +3,11 @@ import {
     StyleSheet,
     View,
     FlatList,
+    Button,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import { Icon } from 'react-native-elements'
 import ContactCard from '../generic/ContactCard/ContactCard';
 
 import {connect} from 'react-redux';
@@ -33,6 +35,12 @@ class ContactsPage extends Component {
                       />
                   : null
                 }
+                <Button
+                onPress={() => console.log('Add New Contacts')}
+                title="Add Contacts"
+                color="royalblue"
+                accessibilityLabel="Learn more about this purple button"
+              />
             </View>
         );
     }

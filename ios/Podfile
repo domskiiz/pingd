@@ -35,6 +35,8 @@ target 'pingd' do
 
   pod 'react-native-sms', :path => '../node_modules/react-native-sms'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'pingdTests' do
     inherit! :search_paths
     # Pods for testing

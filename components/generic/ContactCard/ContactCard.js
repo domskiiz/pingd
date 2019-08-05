@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 
 import addContact from '../../../api/redux/actions/addContact';
+import deleteContact from '../../../api/redux/actions/deleteContact';
 import {connect} from 'react-redux';
 
 import BucketSelector from '../../ContactCard/BucketSelector';
@@ -32,6 +33,8 @@ class ContactCard extends Component {
 
     setPriority(priority) {
         if (priority == this.state.priority) {
+            console.log('same priority');
+            this.props.deleteContact(this.props.phoneNumber);
             this.setState({priority: -1});
             return;
         }
@@ -128,6 +131,7 @@ ContactCard.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
     // thumbnail: PropTypes.string.isRequired,
     addContact: PropTypes.func,
+    deleteContact: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -152,6 +156,7 @@ const mapStateToProps = () => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addContact: (c, p, d) => dispatch(addContact(c, p, d)),
+        deleteContact: (p) => dispatch(deleteContact(p)),
     };
 };
 
