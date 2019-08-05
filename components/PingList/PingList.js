@@ -15,6 +15,25 @@ import Theme from '../Theme';
 
 import {connect} from 'react-redux';
 
+function comparePingCards(c1, c2) {
+    if (c1.daysUntil < c2.daysUntil)
+        return -1;
+    else if (c1.daysUntil > c2.daysUntil)
+        return 1;
+    else if (c1.contact.lastName < c2.contact.lastName)
+        return -1;
+    else if (c1.contact.lastName > c2.contact.lastName)
+        return 1;
+    else {
+        if (c1.contact.firstName < c2.contact.firstName)
+            return -1;
+        else if (c1.contact.firstName > c2.contact.firstName)
+            return 1;
+    }
+
+    return 0;
+}
+
 class PingList extends Component {
     constructor(props) {
         super(props);
@@ -23,8 +42,8 @@ class PingList extends Component {
 
     render() {
 
-        var pingContacts = [].concat(this.props.contacts);
-        pingContacts.sort((a,b) => a.daysUntil > b.daysUntil);
+        // var pingContacts = [].concat(this.props.contacts);
+        // pingContacts.sort((a,b) => a.daysUntil > b.daysUntil);
 
         return (
             <View style={styles.container}>
@@ -33,10 +52,10 @@ class PingList extends Component {
                   Swipe Right if you Connected, Swipe Left to Snooze{"\n"}
                   Hold down card to text them Right Now!</Text>
                 {
-                  pingContacts
+                  this.props.contacts
                   ?
                       <FlatList
-                          data={pingContacts}
+                          data={this.props.contacts.sort(comparePingCards)}
                           renderItem={(c) =>
                             <PingCard
                                 firstName={c.item.contact.firstName}

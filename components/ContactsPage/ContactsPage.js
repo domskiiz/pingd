@@ -11,10 +11,27 @@ import { Icon } from 'react-native-elements'
 import ContactCard from '../generic/ContactCard/ContactCard';
 
 import {connect} from 'react-redux';
+// import * as appActions from '../../api/redux/actions/appActions/changeRoot';
+
+function compareContacts(c1, c2) {
+    if (c1.contact.lastName < c2.contact.lastName)
+        return -1;
+    else if (c1.contact.lastName > c2.contact.lastName)
+        return 1;
+    else {
+        if (c1.contact.firstName < c2.contact.firstName)
+            return -1;
+        else if (c1.contact.firstName > c2.contact.firstName)
+            return 1;
+    }
+
+    return 0;
+}
 
 class ContactsPage extends Component {
     constructor(props) {
         super(props);
+        // this._startApp = this._startApp.bind(this);
     }
 
     render() {
@@ -24,7 +41,7 @@ class ContactsPage extends Component {
                   this.props.contacts
                   ?
                       <FlatList
-                          data={this.props.contacts}
+                          data={this.props.contacts.sort(compareContacts)}
                           renderItem={(c) =>
                               <ContactCard
                                   firstName={c.item.contact.firstName}
@@ -39,7 +56,7 @@ class ContactsPage extends Component {
                 onPress={() => console.log('Add New Contacts')}
                 title="Add Contacts"
                 color="royalblue"
-                accessibilityLabel="Learn more about this purple button"
+                accessibilityLabel="Click to import new contacts"
               />
             </View>
         );
